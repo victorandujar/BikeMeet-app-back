@@ -3,14 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "build:dev": "npx tsc -w",
+    "start": "node dist",
+    "start:dev": "node --watch dist",
+    "test": "npx jest",
+    "test:coverage": "npx jest --coverage --watchAll=false",
     "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/debug": "^4.1.7",
+    "@types/express": "^4.17.17",
     "@types/jest": "^29.5.0",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
@@ -25,5 +33,10 @@
     "prettier": "^2.8.7",
     "ts-jest": "^29.1.0",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "debug": "^4.3.4",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
   }
 }
