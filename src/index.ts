@@ -1,16 +1,15 @@
 import "./loadEnvironment.js";
-import express from "express";
 import createDebug from "debug";
+import chalk from "chalk";
+import startServer from "./server/startServer.js";
 
 const debug = createDebug("index:*");
 
-const app = express();
-const port = 4000;
+const port = process.env.PORT ?? 4000;
 
-app.get("/", (req, res) => {
-  res.json({ ping: "Pong" });
-});
-
-app.listen(port, () => {
-  debug(`Server listening on port ${port}`);
-});
+try {
+  await startServer(+port);
+  debug(chalk.green(`Server listening on port ${port}`));
+} catch (error) {
+  debug(error.message);
+}
