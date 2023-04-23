@@ -1,5 +1,5 @@
 import { type NextFunction, type Request, type Response } from "express";
-import { type UserRegisterCredentials } from "./types/types";
+import { type UserRegisterCredentials } from "../types/types";
 import { UserModel } from "../../../database/models/User.js";
 import bcryptjs from "bcryptjs";
 import { userPositiveFeedback } from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback.js";
