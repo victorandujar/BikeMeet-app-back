@@ -1,7 +1,7 @@
 import createDebug from "debug";
 import { app } from "./index.js";
 import { type CustomError } from "../CustomError/CustomError.js";
-import { errorsManagerMessages } from "../errorsManager/errorsManager.js";
+import { errorsManagerMessages } from "../utils/feedbackMessages/errorsManager/errorsManager.js";
 
 const debug = createDebug("server:startServer:*");
 

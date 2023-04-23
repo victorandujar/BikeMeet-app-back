@@ -3,10 +3,19 @@ import createDebug from "debug";
 import chalk from "chalk";
 import startServer from "./server/startServer.js";
 import connectDataBase from "./database/connectDataBase.js";
+import mongoose from "mongoose";
 
 const debug = createDebug("bikemeet:*");
 
 const port = process.env.PORT ?? 4000;
+
+mongoose.set("toJSON", {
+  virtuals: true,
+  transform(doc, ret) {
+    delete ret._id;
+    delete ret.__v;
+  },
+});
 
 try {
   await connectDataBase(process.env.MONGODB_DATABASE_CONNECTION!);
