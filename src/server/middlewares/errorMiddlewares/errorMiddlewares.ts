@@ -1,9 +1,9 @@
 import { type NextFunction, type Request, type Response } from "express";
-import { CustomError } from "../../../CustomError/CustomError";
+import { CustomError } from "../../../CustomError/CustomError.js";
 import {
   errorsManagerCodes,
   errorsManagerMessages,
-} from "../../../errorsManager/errorsManager";
+} from "../../../utils/feedbackMessages/errorsManager/errorsManager.js";
 import createDebug from "debug";
 
 const debug = createDebug("bikemeet:server:middlewares:errorMiddlewares:*");

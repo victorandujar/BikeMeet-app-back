@@ -15,6 +15,10 @@ module.exports = {
       extends: ["xo-typescript", "prettier"],
       files: ["*.ts", "*.tsx"],
     },
+    {
+      files: ["src/**/models/**/*.ts"],
+      rules: { "@typescript-eslint/naming-convention": "off" },
+    },
   ],
   parserOptions: {
     ecmaVersion: "latest",
@@ -22,5 +26,6 @@ module.exports = {
   },
   rules: {
     "no-implicit-coercion": "off",
+    "new-cap": ["error", { capIsNewExceptions: ["Router"] }],
   },
 };
