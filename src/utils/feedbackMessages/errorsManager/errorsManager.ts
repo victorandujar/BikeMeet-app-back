@@ -9,10 +9,12 @@ export const errorsManagerMessages: ErrorsManagerMessagesStructure = {
   notFoundUser: "Endpoint not found.",
   publicMessageDefault: "Something went wrong!. Try again.",
   registerPublicMessage: "The user couldn't be created. Try again!",
+  wrongCredentialsMessage: "Wrong credentials",
 };
 
 export const errorsManagerCodes: ErrorsManagerCodesStructure = {
   notFound: 404,
   generalErrorStatusCode: 500,
   registerErrorStatusCode: 409,
+  wrongCredentialsStatusCode: 401,
 };

@@ -13,7 +13,7 @@ export const app = express();
 app.disable("x-powered-by");
 
 const corsOptions = {
-  origin: [process.env.LOCALHOST!],
+  origin: [process.env.LOCALHOST!, process.env.VERCEL!],
 };
 
 app.use(express.json());
