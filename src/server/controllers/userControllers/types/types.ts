@@ -6,6 +6,8 @@ export interface UserRegisterCredentials {
   email: string;
   username: string;
   password: string;
+  isVerified: boolean;
+  confirmationCode: string | undefined;
 }
 
 export interface UserCredentials {
@@ -15,4 +17,8 @@ export interface UserCredentials {
 
 export interface CustomJwtPayload extends JwtPayload {
   sub: string;
+}
+
+export interface UserToVerifyStructure {
+  confirmationCode: string;
 }
