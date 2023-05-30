@@ -1,5 +1,6 @@
 export interface UserFeedbackStructure {
   userCreatedMessage: string;
+  verificationMailSuccess: string;
 }
 
 export interface ErrorsManagerMessagesStructure {
@@ -9,6 +10,7 @@ export interface ErrorsManagerMessagesStructure {
   publicMessageDefault: string;
   registerPublicMessage: string;
   wrongCredentialsMessage: string;
+  verificationMailError: string;
 }
 
 export interface ErrorsManagerCodesStructure {

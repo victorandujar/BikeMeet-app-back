@@ -15,10 +15,7 @@ import {
   mockUserLoginCredentials,
   mockUserRegisterCredentials,
 } from "../../../mocks/usersMocks/usersMocks";
-import {
-  userPositiveFeedback,
-  usersPositiveStatusCodes,
-} from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback";
+import { usersPositiveStatusCodes } from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
@@ -40,10 +37,11 @@ beforeEach(() => jest.clearAllMocks());
 describe("Given a registerUser controller", () => {
   describe("When it receives a request", () => {
     test("Then it should call its status method with 201 status code and its json method with the message 'The user has been created'", async () => {
-      const jsonMessage = { message: userPositiveFeedback.userCreatedMessage };
+      const jsonMessage = { confirmationCode: "kdjfkldsjfklasdf" };
 
       req.body = mockUserRegisterCredentials;
       bcryptjs.hash = jest.fn().mockResolvedValue("vik27634fvj");
+      jwt.sign = jest.fn().mockReturnValue("kdjfkldsjfklasdf");
       UserModel.create = jest
         .fn()
         .mockResolvedValue(mockUserRegisterCredentials);
@@ -72,6 +70,7 @@ describe("Given a registerUser controller", () => {
       );
 
       req.body = mockUserRegisterCredentials;
+      jwt.sign = jest.fn().mockReturnValue("kdjfkldsjfklasdf");
       UserModel.create = jest
         .fn()
         .mockRejectedValue(

@@ -5,6 +5,7 @@ import {
 
 export const userPositiveFeedback: UserFeedbackStructure = {
   userCreatedMessage: "The user has been created!",
+  verificationMailSuccess: "The user has been verified!",
 };
 
 export const usersPositiveStatusCodes: UsersPositiveStatusCodesStructure = {

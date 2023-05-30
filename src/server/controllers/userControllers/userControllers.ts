@@ -1,22 +1,21 @@
 import "../../../loadEnvironment.js";
 import { type NextFunction, type Request, type Response } from "express";
 import {
+  type UserToVerifyStructure,
   type CustomJwtPayload,
   type UserCredentials,
   type UserRegisterCredentials,
 } from "./types/types";
 import { UserModel } from "../../../database/models/User.js";
 import bcryptjs from "bcryptjs";
-import {
-  userPositiveFeedback,
-  usersPositiveStatusCodes,
-} from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback.js";
+import { usersPositiveStatusCodes } from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback.js";
 import { CustomError } from "../../../CustomError/CustomError.js";
 import {
   errorsManagerCodes,
   errorsManagerMessages,
 } from "../../../utils/feedbackMessages/errorsManager/errorsManager.js";
 import jwt from "jsonwebtoken";
+import sendVerificationEmail from "../../../utils/verifyEmail/sendVerificationEmail.js";
 
 export const registerUser = async (
   req: Request<
@@ -33,17 +32,22 @@ export const registerUser = async (
   try {
     const hashedPassword = await bcryptjs.hash(password, hashingPasswordLength);
 
-    await UserModel.create({
+    const token = jwt.sign(email, process.env.JWT_SECRET!);
+
+    const user = await UserModel.create({
       email,
       name,
       password: hashedPassword,
       surname,
       username,
+      confirmationCode: token,
     });
+
+    await sendVerificationEmail(user);
 
     res
       .status(usersPositiveStatusCodes.created)
-      .json({ message: userPositiveFeedback.userCreatedMessage });
+      .json({ confirmationCode: user.confirmationCode });
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
@@ -97,6 +101,47 @@ export const loginUser = async (
       (error as Error).message,
       errorsManagerCodes.wrongCredentialsStatusCode,
       errorsManagerMessages.wrongCredentialsMessage
+    );
+
+    next(customError);
+  }
+};
+
+export const verifyEmail = async (
+  req: Request<
+    Record<string, unknown>,
+    Record<string, unknown>,
+    UserToVerifyStructure
+  >,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { confirmationCode } = req.body;
+
+    if (!confirmationCode) {
+      throw new Error();
+    }
+
+    const userToVerify = await UserModel.findOne({ confirmationCode }).exec();
+
+    if (!userToVerify) {
+      throw new Error();
+    }
+
+    userToVerify.confirmationCode = undefined;
+    userToVerify.isVerified = true;
+
+    await userToVerify.save();
+
+    res
+      .status(usersPositiveStatusCodes.responseOk)
+      .json({ user: userToVerify });
+  } catch (error) {
+    const customError = new CustomError(
+      (error as Error).message,
+      errorsManagerCodes.notFound,
+      errorsManagerMessages.verificationMailError
     );
 
     next(customError);

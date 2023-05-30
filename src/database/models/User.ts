@@ -6,6 +6,8 @@ interface User extends Document {
   username: string;
   email: string;
   password: string;
+  isVerified: boolean;
+  confirmationCode: string | undefined;
 }
 
 const UserSchema = new Schema<User>({
@@ -30,6 +32,13 @@ const UserSchema = new Schema<User>({
   password: {
     type: String,
     required: true,
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  confirmationCode: {
+    type: String,
   },
 });
 

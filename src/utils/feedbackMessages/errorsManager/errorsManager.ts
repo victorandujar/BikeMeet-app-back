@@ -10,6 +10,7 @@ export const errorsManagerMessages: ErrorsManagerMessagesStructure = {
   publicMessageDefault: "Something went wrong!. Try again.",
   registerPublicMessage: "The user couldn't be created. Try again!",
   wrongCredentialsMessage: "Wrong credentials",
+  verificationMailError: "Email verification failed",
 };
 
 export const errorsManagerCodes: ErrorsManagerCodesStructure = {
