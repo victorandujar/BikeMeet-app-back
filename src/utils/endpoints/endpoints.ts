@@ -4,6 +4,7 @@ const endpoints: EndpointsStructure = {
   users: "/users",
   register: "/register",
   login: "/login",
+  verifyEmail: "/verify-email",
 };
 
 export default endpoints;
