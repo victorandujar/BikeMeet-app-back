@@ -19,7 +19,7 @@ const sendVerificationEmail = async (userToVerify: UserRegisterCredentials) => {
       please confirm your email by clicking on the following link ⬇️</p>
       <a href=${process.env.LOCALHOST!}${
       endpoints.verifyEmail
-    }> Verify your email ✅</a>
+    }/${userToVerify.confirmationCode!}> Verify your email ✅</a>
     </div>
     `,
   };
