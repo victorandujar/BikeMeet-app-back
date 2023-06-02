@@ -18,6 +18,7 @@ import {
 import { usersPositiveStatusCodes } from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+import sendVerificationEmail from "../../../utils/verifyEmail/sendVerificationEmail";
 
 const req: Partial<
   Request<
@@ -32,19 +33,25 @@ const res: Partial<Response> = {
 };
 const next = jest.fn();
 
+jest.mock("../../../utils/verifyEmail/sendVerificationEmail.js");
+const mockVerificationEmail = sendVerificationEmail as jest.Mock;
+
 beforeEach(() => jest.clearAllMocks());
 
 describe("Given a registerUser controller", () => {
   describe("When it receives a request", () => {
-    test("Then it should call its status method with 201 status code and its json method with the message 'The user has been created'", async () => {
+    test("Then it should call its status method with 201 status code and its json method with the confirmationCode", async () => {
       const jsonMessage = { confirmationCode: "kdjfkldsjfklasdf" };
 
       req.body = mockUserRegisterCredentials;
       bcryptjs.hash = jest.fn().mockResolvedValue("vik27634fvj");
       jwt.sign = jest.fn().mockReturnValue("kdjfkldsjfklasdf");
+
       UserModel.create = jest
         .fn()
         .mockResolvedValue(mockUserRegisterCredentials);
+
+      mockVerificationEmail();
 
       await registerUser(
         req as Request<
