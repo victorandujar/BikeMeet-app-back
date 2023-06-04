@@ -11,6 +11,7 @@ export interface ErrorsManagerMessagesStructure {
   registerPublicMessage: string;
   wrongCredentialsMessage: string;
   verificationMailError: string;
+  getUserWrongEmail: string;
 }
 
 export interface ErrorsManagerCodesStructure {

@@ -11,6 +11,7 @@ export const errorsManagerMessages: ErrorsManagerMessagesStructure = {
   registerPublicMessage: "The user couldn't be created. Try again!",
   wrongCredentialsMessage: "Wrong credentials",
   verificationMailError: "Email verification failed",
+  getUserWrongEmail: "This user does not exist in our data base",
 };
 
 export const errorsManagerCodes: ErrorsManagerCodesStructure = {
