@@ -1,11 +1,15 @@
-import { type Request, type Response } from "express";
+import { type NextFunction, type Request, type Response } from "express";
 import {
   type UserCredentials,
   type UserRegisterCredentials,
 } from "./types/types";
 import bcryptjs from "bcryptjs";
 import { UserModel } from "../../../database/models/User.js";
-import { loginUser, registerUser } from "./userControllers.js";
+import {
+  getUserCheckVerified,
+  loginUser,
+  registerUser,
+} from "./userControllers.js";
 import { CustomError } from "../../../CustomError/CustomError.js";
 import {
   errorsManagerCodes,
@@ -156,6 +160,74 @@ describe("Given a loginUser controller", () => {
       }));
 
       await loginUser(
+        req as Request<
+          Record<string, unknown>,
+          Record<string, unknown>,
+          UserCredentials
+        >,
+        res as Response,
+        next
+      );
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given a getUserCheckVerified controller", () => {
+  const req: Partial<
+    Request<Record<string, unknown>, Record<string, unknown>, UserCredentials>
+  > = {};
+  const res: Partial<Response> = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+  const next = jest.fn();
+
+  describe("When it receives a request to check if an email is verified and the user exists", () => {
+    test("Then it should call its stauts method with 200 and its json method with the value of the property isVerified", async () => {
+      const expectedResponse = { isVerified: false };
+      req.body = mockUserLoginCredentials;
+
+      UserModel.findOne = jest.fn().mockImplementationOnce(() => ({
+        exec: jest.fn().mockResolvedValue({
+          ...mockUserRegisterCredentials,
+          _id: new mongoose.Types.ObjectId(),
+        }),
+      }));
+
+      await getUserCheckVerified(
+        req as Request<
+          Record<string, unknown>,
+          Record<string, unknown>,
+          UserCredentials
+        >,
+        res as Response,
+        next as NextFunction
+      );
+
+      expect(res.status).toHaveBeenCalledWith(
+        usersPositiveStatusCodes.responseOk
+      );
+      expect(res.json).toHaveBeenCalledWith(expectedResponse);
+    });
+  });
+
+  describe("When it receives bad user credentials", () => {
+    test("Then it should show an error with the text 'Wrong credentials' and call next", async () => {
+      const expectedError = new CustomError(
+        errorsManagerMessages.getUserWrongEmail,
+        errorsManagerCodes.notFound,
+        errorsManagerMessages.getUserWrongEmail
+      );
+
+      req.body = mockUserLoginCredentials;
+
+      UserModel.findOne = jest.fn().mockImplementationOnce(() => ({
+        exec: jest.fn().mockRejectedValue(expectedError),
+      }));
+
+      await getUserCheckVerified(
         req as Request<
           Record<string, unknown>,
           Record<string, unknown>,
