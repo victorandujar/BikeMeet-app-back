@@ -1,4 +1,5 @@
 import { type JwtPayload } from "jsonwebtoken";
+import { type Schema } from "mongoose";
 
 export interface UserRegisterCredentials {
   name: string;
@@ -21,4 +22,9 @@ export interface CustomJwtPayload extends JwtPayload {
 
 export interface UserToVerifyStructure {
   confirmationCode: string;
+}
+
+export interface RecoveryPasswordStructure {
+  _id: string;
+  password: string;
 }

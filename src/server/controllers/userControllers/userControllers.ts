@@ -8,7 +8,10 @@ import {
 } from "./types/types";
 import { UserModel } from "../../../database/models/User.js";
 import bcryptjs from "bcryptjs";
-import { usersPositiveStatusCodes } from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback.js";
+import {
+  userPositiveFeedback,
+  usersPositiveStatusCodes,
+} from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback.js";
 import { CustomError } from "../../../CustomError/CustomError.js";
 import {
   errorsManagerCodes,
@@ -148,7 +151,7 @@ export const verifyEmail = async (
   }
 };
 
-export const getUserCheckVerified = async (
+export const findUserEmail = async (
   req: Request<
     Record<string, unknown>,
     Record<string, unknown>,
@@ -166,14 +169,53 @@ export const getUserCheckVerified = async (
       throw new Error();
     }
 
-    res
-      .status(usersPositiveStatusCodes.responseOk)
-      .json({ isVerified: user.isVerified });
+    res.status(usersPositiveStatusCodes.responseOk).json({
+      isVerified: user.isVerified,
+      sub: (user._id as string).toString(),
+    });
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
       errorsManagerCodes.notFound,
       errorsManagerMessages.getUserWrongEmail
+    );
+
+    next(customError);
+  }
+};
+
+export const recoveryPassword = async (
+  req: Request<
+    Record<string, unknown>,
+    Record<string, unknown>,
+    UserCredentials
+  >,
+  res: Response,
+  next: NextFunction
+) => {
+  const { password } = req.body;
+  const { userId } = req.params;
+
+  const hashingPasswordLength = 10;
+
+  try {
+    const hashedPassword = await bcryptjs.hash(password, hashingPasswordLength);
+
+    const user = await UserModel.findById({ _id: userId });
+
+    if (!user) {
+      throw new Error();
+    }
+
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: userPositiveFeedback.passwordChanged });
+  } catch (error) {
+    const customError = new CustomError(
+      (error as Error).message,
+      errorsManagerCodes.notFound,
+      errorsManagerMessages.passwordRecoveryError
     );
 
     next(customError);

@@ -6,6 +6,7 @@ const endpoints: EndpointsStructure = {
   login: "/login",
   verifyEmail: "/verify-email",
   getUser: "/user-verify",
+  recoveryPassword: "/recovery-password/:userId",
 };
 
 export default endpoints;
