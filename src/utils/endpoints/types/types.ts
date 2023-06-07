@@ -5,4 +5,6 @@ export interface EndpointsStructure {
   verifyEmail: string;
   getUser: string;
   recoveryPassword: string;
+  resetPasswordEmail: string;
+  restorePassword: string;
 }
