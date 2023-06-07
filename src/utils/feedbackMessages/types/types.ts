@@ -2,6 +2,7 @@ export interface UserFeedbackStructure {
   userCreatedMessage: string;
   verificationMailSuccess: string;
   passwordChanged: string;
+  userFound: string;
 }
 
 export interface ErrorsManagerMessagesStructure {

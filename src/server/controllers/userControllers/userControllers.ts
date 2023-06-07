@@ -18,7 +18,10 @@ import {
   errorsManagerMessages,
 } from "../../../utils/feedbackMessages/errorsManager/errorsManager.js";
 import jwt from "jsonwebtoken";
-import sendVerificationEmail from "../../../utils/verifyEmail/sendVerificationEmail.js";
+import {
+  sendRecoveryPasswordEmail,
+  sendVerificationUserEmail,
+} from "../../../utils/verifyEmail/sendVerificationEmails.js";
 
 export const registerUser = async (
   req: Request<
@@ -46,7 +49,7 @@ export const registerUser = async (
       confirmationCode: token,
     });
 
-    await sendVerificationEmail(user);
+    await sendVerificationUserEmail(user);
 
     res
       .status(usersPositiveStatusCodes.created)
@@ -171,7 +174,6 @@ export const findUserEmail = async (
 
     res.status(usersPositiveStatusCodes.responseOk).json({
       isVerified: user.isVerified,
-      sub: (user._id as string).toString(),
     });
   } catch (error) {
     const customError = new CustomError(
@@ -218,6 +220,40 @@ export const recoveryPassword = async (
       (error as Error).message,
       errorsManagerCodes.notFound,
       errorsManagerMessages.passwordRecoveryError
+    );
+
+    next(customError);
+  }
+};
+
+export const findUserToRestorePassword = async (
+  req: Request<
+    Record<string, unknown>,
+    Record<string, unknown>,
+    UserCredentials
+  >,
+  res: Response,
+  next: NextFunction
+) => {
+  const { email } = req.body;
+
+  try {
+    const user = await UserModel.findOne({ email }).exec();
+
+    if (!user) {
+      throw new Error();
+    }
+
+    await sendRecoveryPasswordEmail(user, (user._id as string).toString());
+
+    res.status(usersPositiveStatusCodes.responseOk).json({
+      message: userPositiveFeedback.userFound,
+    });
+  } catch (error) {
+    const customError = new CustomError(
+      (error as Error).message,
+      errorsManagerCodes.notFound,
+      errorsManagerMessages.getUserWrongEmail
     );
 
     next(customError);

@@ -7,6 +7,7 @@ export const userPositiveFeedback: UserFeedbackStructure = {
   userCreatedMessage: "The user has been created!",
   verificationMailSuccess: "The user has been verified!",
   passwordChanged: "User password has been modified correctly!",
+  userFound: "User found",
 };
 
 export const usersPositiveStatusCodes: UsersPositiveStatusCodesStructure = {
