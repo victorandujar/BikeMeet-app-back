@@ -12,6 +12,7 @@ export const errorsManagerMessages: ErrorsManagerMessagesStructure = {
   wrongCredentialsMessage: "Wrong credentials",
   verificationMailError: "Email verification failed",
   getUserWrongEmail: "This user does not exist in our data base",
+  passwordRecoveryError: "We couldn't restore your password. Please try again",
 };
 
 export const errorsManagerCodes: ErrorsManagerCodesStructure = {

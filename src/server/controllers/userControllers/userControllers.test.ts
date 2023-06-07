@@ -6,8 +6,9 @@ import {
 import bcryptjs from "bcryptjs";
 import { UserModel } from "../../../database/models/User.js";
 import {
-  getUserCheckVerified,
+  findUserEmail,
   loginUser,
+  recoveryPassword,
   registerUser,
 } from "./userControllers.js";
 import { CustomError } from "../../../CustomError/CustomError.js";
@@ -19,7 +20,10 @@ import {
   mockUserLoginCredentials,
   mockUserRegisterCredentials,
 } from "../../../mocks/usersMocks/usersMocks";
-import { usersPositiveStatusCodes } from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback";
+import {
+  userPositiveFeedback,
+  usersPositiveStatusCodes,
+} from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import sendVerificationEmail from "../../../utils/verifyEmail/sendVerificationEmail";
@@ -186,17 +190,20 @@ describe("Given a getUserCheckVerified controller", () => {
 
   describe("When it receives a request to check if an email is verified and the user exists", () => {
     test("Then it should call its stauts method with 200 and its json method with the value of the property isVerified", async () => {
-      const expectedResponse = { isVerified: false };
+      const expectedResponse = {
+        isVerified: false,
+        sub: "dfjkdfjklasdjklfjdsalkf",
+      };
       req.body = mockUserLoginCredentials;
 
       UserModel.findOne = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockResolvedValue({
           ...mockUserRegisterCredentials,
-          _id: new mongoose.Types.ObjectId(),
+          _id: expectedResponse.sub,
         }),
       }));
 
-      await getUserCheckVerified(
+      await findUserEmail(
         req as Request<
           Record<string, unknown>,
           Record<string, unknown>,
@@ -227,7 +234,82 @@ describe("Given a getUserCheckVerified controller", () => {
         exec: jest.fn().mockRejectedValue(expectedError),
       }));
 
-      await getUserCheckVerified(
+      await findUserEmail(
+        req as Request<
+          Record<string, unknown>,
+          Record<string, unknown>,
+          UserCredentials
+        >,
+        res as Response,
+        next
+      );
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given a recoveryPassword controller", () => {
+  const req: Partial<
+    Request<Record<string, unknown>, Record<string, unknown>, UserCredentials>
+  > = { params: { userId: "dsfjkhdskfhdskfhfdksjfhjdshfk" } };
+  const res: Partial<Response> = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+  const next = jest.fn();
+  describe("When it receives a request with a new password and the user exists", () => {
+    test("Then it should respond with status 200 and the message 'User password has been modified correctly!'", async () => {
+      const expectedResponse = {
+        message: userPositiveFeedback.passwordChanged,
+      };
+      req.body = mockUserLoginCredentials;
+
+      const user = {
+        _id: "1234567890",
+        password: "sdfhjdksfhdjksfhdsjk",
+        save: jest.fn(),
+      };
+
+      UserModel.findById = jest.fn().mockImplementationOnce(() => ({
+        exec: jest.fn().mockResolvedValue(user),
+      }));
+
+      await recoveryPassword(
+        req as Request<
+          Record<string, unknown>,
+          Record<string, unknown>,
+          UserCredentials
+        >,
+        res as Response,
+        next
+      );
+
+      expect(res.status).toHaveBeenCalledWith(
+        usersPositiveStatusCodes.responseOk
+      );
+      expect(res.json).toHaveBeenCalledWith(expectedResponse);
+    });
+  });
+
+  describe("When it receives bad user email", () => {
+    test("Then it should show an error with the text 'We couldn't restore your password. Please try again' and call next", async () => {
+      const expectedError = new CustomError(
+        errorsManagerMessages.passwordRecoveryError,
+        errorsManagerCodes.notFound,
+        errorsManagerMessages.passwordRecoveryError
+      );
+
+      req.body = mockUserLoginCredentials;
+
+      UserModel.findById = jest.fn().mockImplementationOnce(() => ({
+        exec: jest.fn().mockRejectedValue({
+          message: errorsManagerMessages.passwordRecoveryError,
+        }),
+        save: jest.fn().mockRejectedValue(expectedError),
+      }));
+
+      await recoveryPassword(
         req as Request<
           Record<string, unknown>,
           Record<string, unknown>,

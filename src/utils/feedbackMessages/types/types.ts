@@ -1,6 +1,7 @@
 export interface UserFeedbackStructure {
   userCreatedMessage: string;
   verificationMailSuccess: string;
+  passwordChanged: string;
 }
 
 export interface ErrorsManagerMessagesStructure {
@@ -12,6 +13,7 @@ export interface ErrorsManagerMessagesStructure {
   wrongCredentialsMessage: string;
   verificationMailError: string;
   getUserWrongEmail: string;
+  passwordRecoveryError: string;
 }
 
 export interface ErrorsManagerCodesStructure {

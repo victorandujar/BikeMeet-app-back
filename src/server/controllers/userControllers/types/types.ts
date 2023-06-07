@@ -22,3 +22,8 @@ export interface CustomJwtPayload extends JwtPayload {
 export interface UserToVerifyStructure {
   confirmationCode: string;
 }
+
+export interface RecoveryPasswordStructure {
+  _id: string;
+  password: string;
+}
