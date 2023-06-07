@@ -201,7 +201,7 @@ export const recoveryPassword = async (
   try {
     const hashedPassword = await bcryptjs.hash(password, hashingPasswordLength);
 
-    const user = await UserModel.findById({ _id: userId });
+    const user = await UserModel.findById({ _id: userId }).exec();
 
     if (!user) {
       throw new Error();

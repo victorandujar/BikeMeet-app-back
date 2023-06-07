@@ -1,5 +1,4 @@
 import { type JwtPayload } from "jsonwebtoken";
-import { type Schema } from "mongoose";
 
 export interface UserRegisterCredentials {
   name: string;
