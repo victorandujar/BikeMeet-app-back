@@ -265,9 +265,14 @@ describe("Given a recoveryPassword controller", () => {
       };
       req.body = mockUserLoginCredentials;
 
-      UserModel.findById = jest.fn().mockImplementationOnce(() => ({
-        exec: jest.fn().mockReturnValue(expectedResponse),
+      const user = {
+        _id: "1234567890",
+        password: "sdfhjdksfhdjksfhdsjk",
         save: jest.fn(),
+      };
+
+      UserModel.findById = jest.fn().mockImplementationOnce(() => ({
+        exec: jest.fn().mockResolvedValue(user),
       }));
 
       await recoveryPassword(

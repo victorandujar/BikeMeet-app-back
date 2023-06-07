@@ -210,7 +210,9 @@ export const recoveryPassword = async (
     user.password = hashedPassword;
     await user.save();
 
-    res.status(200).json({ message: userPositiveFeedback.passwordChanged });
+    res
+      .status(usersPositiveStatusCodes.responseOk)
+      .json({ message: userPositiveFeedback.passwordChanged });
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
