@@ -26,7 +26,7 @@ import {
 } from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import sendVerificationEmail from "../../../utils/verifyEmail/sendVerificationEmail";
+import { sendVerificationUserEmail } from "../../../utils/verifyEmail/sendVerificationEmails";
 
 const req: Partial<
   Request<
@@ -41,8 +41,8 @@ const res: Partial<Response> = {
 };
 const next = jest.fn();
 
-jest.mock("../../../utils/verifyEmail/sendVerificationEmail.js");
-const mockVerificationEmail = sendVerificationEmail as jest.Mock;
+jest.mock("../../../utils/verifyEmail/sendVerificationEmails");
+const mockVerificationEmail = sendVerificationUserEmail as jest.Mock;
 
 beforeEach(() => jest.clearAllMocks());
 
@@ -178,7 +178,7 @@ describe("Given a loginUser controller", () => {
   });
 });
 
-describe("Given a getUserCheckVerified controller", () => {
+describe("Given a findUserEmail controller", () => {
   const req: Partial<
     Request<Record<string, unknown>, Record<string, unknown>, UserCredentials>
   > = {};
@@ -192,14 +192,12 @@ describe("Given a getUserCheckVerified controller", () => {
     test("Then it should call its stauts method with 200 and its json method with the value of the property isVerified", async () => {
       const expectedResponse = {
         isVerified: false,
-        sub: "dfjkdfjklasdjklfjdsalkf",
       };
       req.body = mockUserLoginCredentials;
 
       UserModel.findOne = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockResolvedValue({
           ...mockUserRegisterCredentials,
-          _id: expectedResponse.sub,
         }),
       }));
 
