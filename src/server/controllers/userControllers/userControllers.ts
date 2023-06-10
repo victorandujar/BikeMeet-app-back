@@ -6,7 +6,7 @@ import {
   type UserCredentials,
   type UserRegisterCredentials,
 } from "./types/types";
-import { UserModel } from "../../../database/models/User.js";
+import { User } from "../../../database/models/User.js";
 import bcryptjs from "bcryptjs";
 import {
   userPositiveFeedback,
@@ -40,7 +40,7 @@ export const registerUser = async (
 
     const token = jwt.sign(email, process.env.JWT_SECRET!);
 
-    const user = await UserModel.create({
+    const user = await User.create({
       email,
       name,
       password: hashedPassword,
@@ -77,7 +77,7 @@ export const loginUser = async (
   const { email, password } = req.body;
 
   try {
-    const user = await UserModel.findOne({ email }).exec();
+    const user = await User.findOne({ email }).exec();
 
     if (!user) {
       throw new Error();
@@ -129,7 +129,7 @@ export const verifyEmail = async (
       throw new Error();
     }
 
-    const userToVerify = await UserModel.findOne({ confirmationCode }).exec();
+    const userToVerify = await User.findOne({ confirmationCode }).exec();
 
     if (!userToVerify) {
       throw new Error();
@@ -166,7 +166,7 @@ export const findUserEmail = async (
   const { email } = req.body;
 
   try {
-    const user = await UserModel.findOne({ email }).exec();
+    const user = await User.findOne({ email }).exec();
 
     if (!user) {
       throw new Error();
@@ -203,7 +203,7 @@ export const recoveryPassword = async (
   try {
     const hashedPassword = await bcryptjs.hash(password, hashingPasswordLength);
 
-    const user = await UserModel.findById({ _id: userId }).exec();
+    const user = await User.findById({ _id: userId }).exec();
 
     if (!user) {
       throw new Error();
@@ -238,7 +238,7 @@ export const findUserToRestorePassword = async (
   const { email } = req.body;
 
   try {
-    const user = await UserModel.findOne({ email }).exec();
+    const user = await User.findOne({ email }).exec();
 
     if (!user) {
       throw new Error();

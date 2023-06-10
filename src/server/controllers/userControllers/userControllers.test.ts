@@ -4,7 +4,7 @@ import {
   type UserRegisterCredentials,
 } from "./types/types";
 import bcryptjs from "bcryptjs";
-import { UserModel } from "../../../database/models/User.js";
+import { User } from "../../../database/models/User.js";
 import {
   findUserEmail,
   loginUser,
@@ -55,9 +55,7 @@ describe("Given a registerUser controller", () => {
       bcryptjs.hash = jest.fn().mockResolvedValue("vik27634fvj");
       jwt.sign = jest.fn().mockReturnValue("kdjfkldsjfklasdf");
 
-      UserModel.create = jest
-        .fn()
-        .mockResolvedValue(mockUserRegisterCredentials);
+      User.create = jest.fn().mockResolvedValue(mockUserRegisterCredentials);
 
       mockVerificationEmail();
 
@@ -86,7 +84,7 @@ describe("Given a registerUser controller", () => {
 
       req.body = mockUserRegisterCredentials;
       jwt.sign = jest.fn().mockReturnValue("kdjfkldsjfklasdf");
-      UserModel.create = jest
+      User.create = jest
         .fn()
         .mockRejectedValue(
           new Error(errorsManagerMessages.registerPublicMessage)
@@ -122,7 +120,7 @@ describe("Given a loginUser controller", () => {
       req.body = mockUserLoginCredentials;
       const expectedResponse = { token: "dsjakhsdsagdhgashj" };
 
-      UserModel.findOne = jest.fn().mockImplementationOnce(() => ({
+      User.findOne = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockResolvedValue({
           ...mockUserLoginCredentials,
           _id: new mongoose.Types.ObjectId(),
@@ -159,7 +157,7 @@ describe("Given a loginUser controller", () => {
 
       req.body = mockUserLoginCredentials;
 
-      UserModel.findOne = jest.fn().mockImplementationOnce(() => ({
+      User.findOne = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockRejectedValue(expectedError),
       }));
 
@@ -195,7 +193,7 @@ describe("Given a findUserEmail controller", () => {
       };
       req.body = mockUserLoginCredentials;
 
-      UserModel.findOne = jest.fn().mockImplementationOnce(() => ({
+      User.findOne = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockResolvedValue({
           ...mockUserRegisterCredentials,
         }),
@@ -228,7 +226,7 @@ describe("Given a findUserEmail controller", () => {
 
       req.body = mockUserLoginCredentials;
 
-      UserModel.findOne = jest.fn().mockImplementationOnce(() => ({
+      User.findOne = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockRejectedValue(expectedError),
       }));
 
@@ -269,7 +267,7 @@ describe("Given a recoveryPassword controller", () => {
         save: jest.fn(),
       };
 
-      UserModel.findById = jest.fn().mockImplementationOnce(() => ({
+      User.findById = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockResolvedValue(user),
       }));
 
@@ -300,7 +298,7 @@ describe("Given a recoveryPassword controller", () => {
 
       req.body = mockUserLoginCredentials;
 
-      UserModel.findById = jest.fn().mockImplementationOnce(() => ({
+      User.findById = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockRejectedValue({
           message: errorsManagerMessages.passwordRecoveryError,
         }),
