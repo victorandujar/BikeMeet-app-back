@@ -1,15 +1,27 @@
 import { type Document, Schema, model } from "mongoose";
 
+enum SurfaceTypeOptions {
+  gravel = "gravel",
+  road = "road",
+  mtb = "mountain",
+}
+
+enum DifficultyOption {
+  easy = "easy",
+  intermediate = "intermediate",
+  hard = "hard",
+}
+
 export interface RidesModel extends Document {
   title: string;
   location: string;
   date: string;
-  surfaceType: string;
+  surfaceType: SurfaceTypeOptions;
   distance: string;
-  difficulty: string;
+  difficulty: DifficultyOption;
   pace: string;
   description: string;
-  ridersJoined: string;
+  ridersJoined: string[];
   ridersLimit: number;
   image: string;
   owner: Record<string, unknown>;
@@ -48,9 +60,12 @@ const ridesSchecma = new Schema<RidesModel>({
     type: String,
     required: true,
   },
-  ridersJoined: {
-    type: String,
-  },
+  ridersJoined: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   ridersLimit: {
     type: Number,
     required: true,

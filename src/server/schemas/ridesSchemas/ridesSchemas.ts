@@ -10,7 +10,7 @@ const ridesSchema = {
     difficulty: Joi.string().required(),
     pace: Joi.string().required(),
     description: Joi.string().max(500).required(),
-    ridersJoined: Joi.string(),
+    ridersJoined: Joi.array(),
     ridersLimit: Joi.number().required(),
     image: Joi.string(),
   }),
