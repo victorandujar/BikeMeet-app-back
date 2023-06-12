@@ -6,7 +6,7 @@ import { app } from "../../index.js";
 import request from "supertest";
 import { type UserCredentials } from "../../controllers/userControllers/types/types";
 import { type UserRegisterCredentials } from "../../controllers/userControllers/types/types";
-import { UserModel } from "../../../database/models/User";
+import { User } from "../../../database/models/User";
 import jwt from "jsonwebtoken";
 import { usersPositiveStatusCodes } from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback";
 
@@ -25,7 +25,7 @@ afterAll(async () => {
 });
 
 afterEach(async () => {
-  await UserModel.deleteMany();
+  await User.deleteMany();
 });
 
 const mockUserDb: UserRegisterCredentials = {
@@ -52,7 +52,7 @@ describe("Given a POST '/users/login' endpoint", () => {
       }));
       const hashedPassword = await bcryptjs.hash(user.password, 10);
 
-      await UserModel.create({
+      await User.create({
         ...mockUserDb,
         password: hashedPassword,
       });
