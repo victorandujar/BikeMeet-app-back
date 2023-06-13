@@ -1,6 +1,6 @@
 import "../../loadEnvironment.js";
 import { type UserRegisterCredentials } from "../../server/controllers/userControllers/types/types.js";
-import endpoints from "../endpoints/endpoints.js";
+import { userEndpoints } from "../endpoints/endpoints.js";
 import createMailTransporter, { user } from "./createMailTransporter.js";
 import { type UserMailOptionsStructure } from "./types/types.js";
 
@@ -22,7 +22,7 @@ export const sendVerificationUserEmail = async (
       <p style="font-size: 15px; font-family: Arial">Thank you for joining our cycling community 🚵🚵. 
       Before you start sharing your rides, please confirm your email by clicking on the following link ⬇️</p>
       <button style="background: #0000ff; font-family: Arial; font-weight: 700; border-radius: 10px; height: 40px; font-size: 15px; width: 160px; border: none"><a href=${apiUrl!}${
-      endpoints.verifyEmail
+      userEndpoints.verifyEmail
     }/${userToVerify.confirmationCode!} style="text-decoration: none; color: #fff;">Verify your email</a></button>
   </div>
     `,
@@ -48,7 +48,7 @@ export const sendRecoveryPasswordEmail = async (
       <p style="font-size: 15px; font-family: Arial">Please click to the link below to reset your password ⬇️. 
       We will redirect you to another page to let you set your new password.</p>
       <button style="background: #0000ff; font-family: Arial; font-weight: 700; border-radius: 10px; height: 40px; font-size: 15px; width: 160px; border: none"><a href=${apiUrl!}${
-      endpoints.restorePassword
+      userEndpoints.restorePassword
     }/${userId} style="text-decoration: none; color: #fff;">Reset password</a></button>
   </div>
     `,

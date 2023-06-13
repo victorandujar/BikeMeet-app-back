@@ -14,16 +14,16 @@ import {
 import { CustomError } from "../../../CustomError/CustomError.js";
 import {
   errorsManagerCodes,
-  errorsManagerMessages,
-} from "../../../utils/feedbackMessages/errorsManager/errorsManager.js";
+  userErrorsManagerMessages,
+} from "../../../utils/feedbackMessages/errorsFeedbackManager/errorsFeedbackManager.js";
 import {
   mockUserLoginCredentials,
   mockUserRegisterCredentials,
 } from "../../../mocks/usersMocks/usersMocks";
 import {
-  userPositiveFeedback,
-  usersPositiveStatusCodes,
-} from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback";
+  positiveFeedbackMessages,
+  positiveFeedbackStatusCodes,
+} from "../../../utils/feedbackMessages/positiveFeedbackManager/positiveFeedbackManager";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import { sendVerificationUserEmail } from "../../../utils/verifyEmail/sendVerificationEmails";
@@ -69,7 +69,9 @@ describe("Given a registerUser controller", () => {
         next
       );
 
-      expect(res.status).toHaveBeenCalledWith(usersPositiveStatusCodes.created);
+      expect(res.status).toHaveBeenCalledWith(
+        positiveFeedbackStatusCodes.created
+      );
       expect(res.json).toHaveBeenCalledWith(jsonMessage);
     });
   });
@@ -77,9 +79,9 @@ describe("Given a registerUser controller", () => {
   describe("When it receives a user with an invalid password length", () => {
     test("Then it should show an error with the text 'The user couldn't be created. Try again!'", async () => {
       const expectedError = new CustomError(
-        errorsManagerMessages.registerPublicMessage,
+        userErrorsManagerMessages.registerPublicMessage,
         errorsManagerCodes.registerErrorStatusCode,
-        errorsManagerMessages.registerPublicMessage
+        userErrorsManagerMessages.registerPublicMessage
       );
 
       req.body = mockUserRegisterCredentials;
@@ -87,7 +89,7 @@ describe("Given a registerUser controller", () => {
       User.create = jest
         .fn()
         .mockRejectedValue(
-          new Error(errorsManagerMessages.registerPublicMessage)
+          new Error(userErrorsManagerMessages.registerPublicMessage)
         );
 
       await registerUser(
@@ -141,7 +143,7 @@ describe("Given a loginUser controller", () => {
       );
 
       expect(res.status).toHaveBeenCalledWith(
-        usersPositiveStatusCodes.responseOk
+        positiveFeedbackStatusCodes.responseOk
       );
       expect(res.json).toHaveBeenCalledWith(expectedResponse);
     });
@@ -150,9 +152,9 @@ describe("Given a loginUser controller", () => {
   describe("When it receives bad user credentials", () => {
     test("Then it should show an error with the text 'Wrong credentials' and call next", async () => {
       const expectedError = new CustomError(
-        errorsManagerMessages.wrongCredentialsMessage,
+        userErrorsManagerMessages.wrongCredentialsMessage,
         errorsManagerCodes.wrongCredentialsStatusCode,
-        errorsManagerMessages.wrongCredentialsMessage
+        userErrorsManagerMessages.wrongCredentialsMessage
       );
 
       req.body = mockUserLoginCredentials;
@@ -210,7 +212,7 @@ describe("Given a findUserEmail controller", () => {
       );
 
       expect(res.status).toHaveBeenCalledWith(
-        usersPositiveStatusCodes.responseOk
+        positiveFeedbackStatusCodes.responseOk
       );
       expect(res.json).toHaveBeenCalledWith(expectedResponse);
     });
@@ -219,9 +221,9 @@ describe("Given a findUserEmail controller", () => {
   describe("When it receives bad user credentials", () => {
     test("Then it should show an error with the text 'Wrong credentials' and call next", async () => {
       const expectedError = new CustomError(
-        errorsManagerMessages.getUserWrongEmail,
+        userErrorsManagerMessages.getUserWrongEmail,
         errorsManagerCodes.notFound,
-        errorsManagerMessages.getUserWrongEmail
+        userErrorsManagerMessages.getUserWrongEmail
       );
 
       req.body = mockUserLoginCredentials;
@@ -257,7 +259,7 @@ describe("Given a recoveryPassword controller", () => {
   describe("When it receives a request with a new password and the user exists", () => {
     test("Then it should respond with status 200 and the message 'User password has been modified correctly!'", async () => {
       const expectedResponse = {
-        message: userPositiveFeedback.passwordChanged,
+        message: positiveFeedbackMessages.passwordChanged,
       };
       req.body = mockUserLoginCredentials;
 
@@ -282,7 +284,7 @@ describe("Given a recoveryPassword controller", () => {
       );
 
       expect(res.status).toHaveBeenCalledWith(
-        usersPositiveStatusCodes.responseOk
+        positiveFeedbackStatusCodes.responseOk
       );
       expect(res.json).toHaveBeenCalledWith(expectedResponse);
     });
@@ -291,16 +293,16 @@ describe("Given a recoveryPassword controller", () => {
   describe("When it receives bad user email", () => {
     test("Then it should show an error with the text 'We couldn't restore your password. Please try again' and call next", async () => {
       const expectedError = new CustomError(
-        errorsManagerMessages.passwordRecoveryError,
+        userErrorsManagerMessages.passwordRecoveryError,
         errorsManagerCodes.notFound,
-        errorsManagerMessages.passwordRecoveryError
+        userErrorsManagerMessages.passwordRecoveryError
       );
 
       req.body = mockUserLoginCredentials;
 
       User.findById = jest.fn().mockImplementationOnce(() => ({
         exec: jest.fn().mockRejectedValue({
-          message: errorsManagerMessages.passwordRecoveryError,
+          message: userErrorsManagerMessages.passwordRecoveryError,
         }),
         save: jest.fn().mockRejectedValue(expectedError),
       }));

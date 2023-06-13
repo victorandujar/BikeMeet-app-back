@@ -1,9 +1,10 @@
 import {
+  type RidesErrorManagerMessagesStructure,
   type ErrorsManagerCodesStructure,
-  type ErrorsManagerMessagesStructure,
+  type UserErrorsManagerMessagesStructure,
 } from "../types/types";
 
-export const errorsManagerMessages: ErrorsManagerMessagesStructure = {
+export const userErrorsManagerMessages: UserErrorsManagerMessagesStructure = {
   server: "Error on starting the server!",
   notFoundDev: "Path not found.",
   notFoundUser: "Endpoint not found.",
@@ -13,6 +14,10 @@ export const errorsManagerMessages: ErrorsManagerMessagesStructure = {
   verificationMailError: "Email verification failed",
   getUserWrongEmail: "This user does not exist in our data base",
   passwordRecoveryError: "We couldn't restore your password. Please try again",
+};
+
+export const ridesErrorsManagerStructure: RidesErrorManagerMessagesStructure = {
+  notFoundRides: "We couldn't retrieve rides. Try again!",
 };
 
 export const errorsManagerCodes: ErrorsManagerCodesStructure = {

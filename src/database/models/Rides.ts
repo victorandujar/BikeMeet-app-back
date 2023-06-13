@@ -1,33 +1,25 @@
 import { type Document, Schema, model } from "mongoose";
-
-enum SurfaceTypeOptions {
-  gravel = "gravel",
-  road = "road",
-  mtb = "mountain",
-}
-
-enum DifficultyOption {
-  easy = "easy",
-  intermediate = "intermediate",
-  hard = "hard",
-}
+import {
+  type DifficultyOption,
+  type SurfaceTypeOptions,
+} from "../../server/controllers/ridesControllers/types/types";
 
 export interface RidesModel extends Document {
   title: string;
   location: string;
-  date: string;
+  date: string | Date;
   surfaceType: SurfaceTypeOptions;
-  distance: string;
+  distance: number;
   difficulty: DifficultyOption;
-  pace: string;
+  pace: number;
   description: string;
   ridersJoined: string[];
   ridersLimit: number;
   image: string;
-  owner: Record<string, unknown>;
+  owner: Record<string, unknown> | string;
 }
 
-const ridesSchecma = new Schema<RidesModel>({
+const ridesSchema = new Schema<RidesModel>({
   title: {
     type: String,
     required: true,
@@ -37,7 +29,7 @@ const ridesSchecma = new Schema<RidesModel>({
     required: true,
   },
   date: {
-    type: String,
+    type: Date,
     required: true,
   },
   surfaceType: {
@@ -45,7 +37,7 @@ const ridesSchecma = new Schema<RidesModel>({
     required: true,
   },
   distance: {
-    type: String,
+    type: Number,
     required: true,
   },
   difficulty: {
@@ -53,7 +45,7 @@ const ridesSchecma = new Schema<RidesModel>({
     required: true,
   },
   pace: {
-    type: String,
+    type: Number,
     required: true,
   },
   description: {
@@ -80,4 +72,4 @@ const ridesSchecma = new Schema<RidesModel>({
   },
 });
 
-export const Rides = model<RidesModel>("Rides", ridesSchecma, "rides");
+export const Rides = model<RidesModel>("Rides", ridesSchema, "rides");

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import endpoints from "../../../utils/endpoints/endpoints.js";
+import { userEndpoints } from "../../../utils/endpoints/endpoints.js";
 import {
   findUserEmail,
   findUserToRestorePassword,
@@ -15,18 +15,18 @@ import registerUserSchema from "../../schemas/userSchemas/registerUserSchema.js"
 const usersRouter = Router();
 
 usersRouter.post(
-  endpoints.register,
+  userEndpoints.register,
   validate(registerUserSchema, {}, { abortEarly: false }),
   registerUser
 );
 usersRouter.post(
-  endpoints.login,
+  userEndpoints.login,
   validate(loginUserSchema, {}, { abortEarly: false }),
   loginUser
 );
-usersRouter.post(endpoints.verifyEmail, verifyEmail);
-usersRouter.post(endpoints.getUser, findUserEmail);
-usersRouter.post(endpoints.recoveryPassword, recoveryPassword);
-usersRouter.post(endpoints.resetPasswordEmail, findUserToRestorePassword);
+usersRouter.post(userEndpoints.verifyEmail, verifyEmail);
+usersRouter.post(userEndpoints.getUser, findUserEmail);
+usersRouter.post(userEndpoints.recoveryPassword, recoveryPassword);
+usersRouter.post(userEndpoints.resetPasswordEmail, findUserToRestorePassword);
 
 export default usersRouter;
