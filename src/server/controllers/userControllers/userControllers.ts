@@ -9,14 +9,14 @@ import {
 import { User } from "../../../database/models/User.js";
 import bcryptjs from "bcryptjs";
 import {
-  userPositiveFeedback,
-  usersPositiveStatusCodes,
-} from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback.js";
+  positiveFeedbackMessages,
+  positiveFeedbackStatusCodes,
+} from "../../../utils/feedbackMessages/positiveFeedbackManager/positiveFeedbackManager.js";
 import { CustomError } from "../../../CustomError/CustomError.js";
 import {
   errorsManagerCodes,
-  errorsManagerMessages,
-} from "../../../utils/feedbackMessages/errorsManager/errorsManager.js";
+  userErrorsManagerMessages,
+} from "../../../utils/feedbackMessages/errorsFeedbackManager/errorsFeedbackManager.js";
 import jwt from "jsonwebtoken";
 import {
   sendRecoveryPasswordEmail,
@@ -52,13 +52,13 @@ export const registerUser = async (
     await sendVerificationUserEmail(user);
 
     res
-      .status(usersPositiveStatusCodes.created)
+      .status(positiveFeedbackStatusCodes.created)
       .json({ confirmationCode: user.confirmationCode });
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
       errorsManagerCodes.registerErrorStatusCode,
-      errorsManagerMessages.registerPublicMessage
+      userErrorsManagerMessages.registerPublicMessage
     );
 
     next(customError);
@@ -101,12 +101,12 @@ export const loginUser = async (
       expiresIn: "7d",
     });
 
-    res.status(usersPositiveStatusCodes.responseOk).json({ token });
+    res.status(positiveFeedbackStatusCodes.responseOk).json({ token });
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
       errorsManagerCodes.wrongCredentialsStatusCode,
-      errorsManagerMessages.wrongCredentialsMessage
+      userErrorsManagerMessages.wrongCredentialsMessage
     );
 
     next(customError);
@@ -141,13 +141,13 @@ export const verifyEmail = async (
     await userToVerify.save();
 
     res
-      .status(usersPositiveStatusCodes.responseOk)
+      .status(positiveFeedbackStatusCodes.responseOk)
       .json({ user: userToVerify });
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
       errorsManagerCodes.notFound,
-      errorsManagerMessages.verificationMailError
+      userErrorsManagerMessages.verificationMailError
     );
 
     next(customError);
@@ -172,14 +172,14 @@ export const findUserEmail = async (
       throw new Error();
     }
 
-    res.status(usersPositiveStatusCodes.responseOk).json({
+    res.status(positiveFeedbackStatusCodes.responseOk).json({
       isVerified: user.isVerified,
     });
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
       errorsManagerCodes.notFound,
-      errorsManagerMessages.getUserWrongEmail
+      userErrorsManagerMessages.getUserWrongEmail
     );
 
     next(customError);
@@ -213,13 +213,13 @@ export const recoveryPassword = async (
     await user.save();
 
     res
-      .status(usersPositiveStatusCodes.responseOk)
-      .json({ message: userPositiveFeedback.passwordChanged });
+      .status(positiveFeedbackStatusCodes.responseOk)
+      .json({ message: positiveFeedbackMessages.passwordChanged });
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
       errorsManagerCodes.notFound,
-      errorsManagerMessages.passwordRecoveryError
+      userErrorsManagerMessages.passwordRecoveryError
     );
 
     next(customError);
@@ -246,14 +246,14 @@ export const findUserToRestorePassword = async (
 
     await sendRecoveryPasswordEmail(user, (user._id as string).toString());
 
-    res.status(usersPositiveStatusCodes.responseOk).json({
-      message: userPositiveFeedback.userFound,
+    res.status(positiveFeedbackStatusCodes.responseOk).json({
+      message: positiveFeedbackMessages.userFound,
     });
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
       errorsManagerCodes.notFound,
-      errorsManagerMessages.getUserWrongEmail
+      userErrorsManagerMessages.getUserWrongEmail
     );
 
     next(customError);

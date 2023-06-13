@@ -1,0 +1,212 @@
+[
+  {
+    "_id": {
+      "$oid": "6488426a98040d0f5e10201b"
+    },
+    "title": "Ruta de montaña A",
+    "location": "Montaña X",
+    "date": {
+      "$date": "2023-06-14T00:00:00.000Z"
+    },
+    "surfaceType": "Gravel",
+    "distance": 20,
+    "difficulty": "Intermidiate",
+    "pace": 3,
+    "description": "Únete a nosotros para un recorrido escénico por el campo.",
+    "ridersJoined": ["644a55c116f442c7541666da", "644a55c116f442c7541666db"],
+    "ridersLimit": 10,
+    "image": "https://res.cloudinary.com/dehhtvcgi/image/upload/v1678553439/3_nacions_zhieiy.jpg",
+    "owner": {
+      "$oid": "64804b1505ab892cb07b0061"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6488426a98040d0f5e10201c"
+    },
+    "title": "Ruta de carretera B",
+    "location": "Ciudad Y",
+    "date": {
+      "$date": "2023-06-15T00:00:00.000Z"
+    },
+    "surfaceType": "Road",
+    "distance": 30,
+    "difficulty": "Hard",
+    "pace": 5,
+    "description": "Un recorrido en carretera desafiante para ciclistas experimentados.",
+    "ridersJoined": ["644a55c116f442c7541666dd", "644a55c116f442c7541666de"],
+    "ridersLimit": 8,
+    "image": "https://res.cloudinary.com/dehhtvcgi/image/upload/v1678553440/Serra_marina_njzsql.jpg",
+    "owner": {
+      "$oid": "64804b1505ab892cb07b0061"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6488426a98040d0f5e10201d"
+    },
+    "title": "Ruta de montaña C",
+    "location": "Montaña Z",
+    "date": {
+      "$date": "2023-06-16T00:00:00.000Z"
+    },
+    "surfaceType": "Gravel",
+    "distance": 25,
+    "difficulty": "Easy",
+    "pace": 4,
+    "description": "Explora los hermosos senderos de montaña con nosotros.",
+    "ridersJoined": ["644a55c116f442c7541666e0", "644a55c116f442c7541666e1"],
+    "ridersLimit": 6,
+    "image": "https://res.cloudinary.com/dehhtvcgi/image/upload/v1678553441/Montserrat_wwscsb.jpg",
+    "owner": {
+      "$oid": "64804b1505ab892cb07b0061"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6488426a98040d0f5e10201e"
+    },
+    "title": "Ruta de montaña D",
+    "location": "Montaña W",
+    "date": {
+      "$date": "2023-06-17T00:00:00.000Z"
+    },
+    "surfaceType": "Gravel",
+    "distance": 15,
+    "difficulty": "Easy",
+    "pace": 2,
+    "description": "Un paseo relajado por caminos de grava para principiantes.",
+    "ridersJoined": ["644a55c116f442c7541666e3", "644a55c116f442c7541666e4"],
+    "ridersLimit": 12,
+    "image": "https://res.cloudinary.com/dehhtvcgi/image/upload/v1678553442/the-traka-2023_wixdu1.jpg",
+    "owner": {
+      "$oid": "64804b1505ab892cb07b0061"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6488426a98040d0f5e10201f"
+    },
+    "title": "Ruta de carretera E",
+    "location": "Ciudad Z",
+    "date": {
+      "$date": "2023-06-18T00:00:00.000Z"
+    },
+    "surfaceType": "Road",
+    "distance": 40,
+    "difficulty": "Hard",
+    "pace": 5,
+    "description": "Un emocionante recorrido en carretera para ciclistas experimentados.",
+    "ridersJoined": ["644a55c116f442c7541666e6", "644a55c116f442c7541666e7"],
+    "ridersLimit": 8,
+    "image": "https://res.cloudinary.com/dehhtvcgi/image/upload/v1678553442/3_nacion_guqztd.png",
+    "owner": {
+      "$oid": "64804b1505ab892cb07b0061"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6488426a98040d0f5e102020"
+    },
+    "title": "Ruta de montaña F",
+    "location": "Montaña Y",
+    "date": {
+      "$date": "2023-06-19T00:00:00.000Z"
+    },
+    "surfaceType": "Mountain",
+    "distance": 30,
+    "difficulty": "Intermidiate",
+    "pace": 4,
+    "description": "Disfruta de los hermosos paisajes de montaña en este recorrido.",
+    "ridersJoined": ["644a55c116f442c7541666e9", "644a55c116f442c7541666ea"],
+    "ridersLimit": 10,
+    "image": "https://res.cloudinary.com/dehhtvcgi/image/upload/v1678553442/pirinexus_ka4hwg.jpg",
+    "owner": {
+      "$oid": "64804b1505ab892cb07b0061"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6488426a98040d0f5e102021"
+    },
+    "title": "Ruta de carretera G",
+    "location": "Ciudad X",
+    "date": {
+      "$date": "2023-06-20T00:00:00.000Z"
+    },
+    "surfaceType": "Road",
+    "distance": 35,
+    "difficulty": "Expert",
+    "pace": 5,
+    "description": "Un desafiante recorrido en carretera para ciclistas experimentados.",
+    "ridersJoined": ["644a55c116f442c7541666ec", "644a55c116f442c7541666ed"],
+    "ridersLimit": 6,
+    "image": "https://res.cloudinary.com/dehhtvcgi/image/upload/v1678553444/Detail_page_f94vfp.jpg",
+    "owner": {
+      "$oid": "64804b1505ab892cb07b0061"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6488426a98040d0f5e102022"
+    },
+    "title": "Ruta de montaña H",
+    "location": "Montaña V",
+    "date": {
+      "$date": "2023-06-21T00:00:00.000Z"
+    },
+    "surfaceType": "Gravel",
+    "distance": 18,
+    "difficulty": "Easy",
+    "pace": 3,
+    "description": "Explora los senderos de montaña en este recorrido pintoresco.",
+    "ridersJoined": ["644a55c116f442c7541666ef", "644a55c116f442c7541666f0"],
+    "ridersLimit": 10,
+    "image": "https://res.cloudinary.com/dehhtvcgi/image/upload/v1678553445/pexels-pavel-danilyuk-5807630_gxiwdm.jpg",
+    "owner": {
+      "$oid": "64804b1505ab892cb07b0061"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6488426a98040d0f5e102023"
+    },
+    "title": "Ruta de carretera I",
+    "location": "Ciudad W",
+    "date": {
+      "$date": "2023-06-22T00:00:00.000Z"
+    },
+    "surfaceType": "Road",
+    "distance": 25,
+    "difficulty": "Intermidiate",
+    "pace": 4,
+    "description": "Disfruta de un recorrido en carretera panorámico con otros ciclistas.",
+    "ridersJoined": ["644a55c116f442c7541666f2", "644a55c116f442c7541666f3"],
+    "ridersLimit": 8,
+    "image": "https://res.cloudinary.com/dehhtvcgi/image/upload/v1682678126/pexels-rehook-bike-12592799_cotf8u.jpg",
+    "owner": {
+      "$oid": "64804b1505ab892cb07b0061"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6488426a98040d0f5e102024"
+    },
+    "title": "Ruta de montaña J",
+    "location": "Montaña U",
+    "date": {
+      "$date": "2023-06-23T00:00:00.000Z"
+    },
+    "surfaceType": "Mountain",
+    "distance": 22,
+    "difficulty": "Hard",
+    "pace": 3,
+    "description": "Un recorrido emocionante a través de los senderos de montaña.",
+    "ridersJoined": ["644a55c116f442c7541666f5", "644a55c116f442c7541666f6"],
+    "ridersLimit": 6,
+    "image": "https://res.cloudinary.com/dehhtvcgi/image/upload/v1678617082/La_mussara_lazuoh.png",
+    "owner": {
+      "$oid": "64804b1505ab892cb07b0061"
+    }
+  }
+]

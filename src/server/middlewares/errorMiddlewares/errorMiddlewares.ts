@@ -2,8 +2,8 @@ import { type NextFunction, type Request, type Response } from "express";
 import { CustomError } from "../../../CustomError/CustomError.js";
 import {
   errorsManagerCodes,
-  errorsManagerMessages,
-} from "../../../utils/feedbackMessages/errorsManager/errorsManager.js";
+  userErrorsManagerMessages,
+} from "../../../utils/feedbackMessages/errorsFeedbackManager/errorsFeedbackManager.js";
 import createDebug from "debug";
 
 const debug = createDebug("bikemeet:server:middlewares:errorMiddlewares:*");
@@ -14,9 +14,9 @@ export const notFoundError = (
   next: NextFunction
 ) => {
   const customError = new CustomError(
-    errorsManagerMessages.notFoundDev,
+    userErrorsManagerMessages.notFoundDev,
     errorsManagerCodes.notFound,
-    errorsManagerMessages.notFoundUser
+    userErrorsManagerMessages.notFoundUser
   );
 
   next(customError);
@@ -33,7 +33,7 @@ export const generalError = (
   const statusCode =
     error.statusCode || errorsManagerCodes.generalErrorStatusCode;
   const publicMessage =
-    error.publicMessage || errorsManagerMessages.publicMessageDefault;
+    error.publicMessage || userErrorsManagerMessages.publicMessageDefault;
 
   res.status(statusCode).json({ error: publicMessage });
 };
