@@ -1,11 +1,11 @@
-export interface UserFeedbackStructure {
+export interface PositiveFeedbackMessagesStructure {
   userCreatedMessage: string;
   verificationMailSuccess: string;
   passwordChanged: string;
   userFound: string;
 }
 
-export interface ErrorsManagerMessagesStructure {
+export interface UserErrorsManagerMessagesStructure {
   server: string;
   notFoundDev: string;
   notFoundUser: string;
@@ -17,6 +17,10 @@ export interface ErrorsManagerMessagesStructure {
   passwordRecoveryError: string;
 }
 
+export interface RidesErrorManagerMessagesStructure {
+  notFoundRides: string;
+}
+
 export interface ErrorsManagerCodesStructure {
   notFound: number;
   generalErrorStatusCode: number;
@@ -24,7 +28,7 @@ export interface ErrorsManagerCodesStructure {
   wrongCredentialsStatusCode: number;
 }
 
-export interface UsersPositiveStatusCodesStructure {
+export interface PositiveFeedbackStatusCodesStructure {
   responseOk: number;
   created: number;
 }
