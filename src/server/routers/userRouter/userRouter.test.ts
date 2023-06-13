@@ -8,7 +8,7 @@ import { type UserCredentials } from "../../controllers/userControllers/types/ty
 import { type UserRegisterCredentials } from "../../controllers/userControllers/types/types";
 import { User } from "../../../database/models/User";
 import jwt from "jsonwebtoken";
-import { usersPositiveStatusCodes } from "../../../utils/feedbackMessages/userPositiveFeedback/userPositiveFeedback";
+import { positiveFeedbackStatusCodes } from "../../../utils/feedbackMessages/positiveFeedbackManager/positiveFeedbackManager";
 
 let mongodbServer: MongoMemoryServer;
 
@@ -60,7 +60,7 @@ describe("Given a POST '/users/login' endpoint", () => {
       const response = await request(app)
         .post(loginPath)
         .send(user)
-        .expect(usersPositiveStatusCodes.responseOk);
+        .expect(positiveFeedbackStatusCodes.responseOk);
 
       expect(response.body).toHaveProperty("token");
     });

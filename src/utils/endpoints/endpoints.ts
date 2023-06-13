@@ -1,6 +1,9 @@
-import { type EndpointsStructure } from "./types/types";
+import {
+  type RidesEndpointsStructure,
+  type UserEndpointsStructure,
+} from "./types/types";
 
-const endpoints: EndpointsStructure = {
+export const userEndpoints: UserEndpointsStructure = {
   users: "/users",
   register: "/register",
   login: "/login",
@@ -11,4 +14,7 @@ const endpoints: EndpointsStructure = {
   restorePassword: "/restore-password",
 };
 
-export default endpoints;
+export const ridesEndpoints: RidesEndpointsStructure = {
+  rides: "/rides",
+  getAllRides: "/",
+};

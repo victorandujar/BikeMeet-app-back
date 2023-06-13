@@ -1,7 +1,7 @@
 import createDebug from "debug";
 import { app } from "./index.js";
 import { type CustomError } from "../CustomError/CustomError.js";
-import { errorsManagerMessages } from "../utils/feedbackMessages/errorsManager/errorsManager.js";
+import { userErrorsManagerMessages } from "../utils/feedbackMessages/errorsFeedbackManager/errorsFeedbackManager.js";
 
 const debug = createDebug("server:startServer:*");
 
@@ -12,7 +12,7 @@ const startServer = async (port: number) =>
     });
 
     server.on("error", (error: CustomError) => {
-      const errorMessage = errorsManagerMessages.server;
+      const errorMessage = userErrorsManagerMessages.server;
 
       if (error.code === "EADDRINUSE") {
         debug(errorMessage, `The port number ${port} is already in use!`);
