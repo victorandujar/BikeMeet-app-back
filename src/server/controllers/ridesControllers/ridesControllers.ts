@@ -13,7 +13,9 @@ export const getAllRides = async (
   next: NextFunction
 ) => {
   try {
-    const rides = await Rides.find().exec();
+    const rides = await Rides.find()
+      .populate("owner", "name surname username")
+      .exec();
 
     res.status(positiveFeedbackStatusCodes.responseOk).json({ rides });
   } catch (error) {
