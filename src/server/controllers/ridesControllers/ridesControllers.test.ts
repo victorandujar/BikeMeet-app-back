@@ -1,7 +1,7 @@
 /* eslint-disable max-nested-callbacks */
 import { type NextFunction, type Request, type Response } from "express";
 import { mockRides } from "../../../mocks/ridesMocks/ridesMocks";
-import { Rides } from "../../../database/models/Rides";
+import { Ride } from "../../../database/models/Ride";
 import { getAllRides } from "./ridesControllers";
 import { positiveFeedbackStatusCodes } from "../../../utils/feedbackMessages/positiveFeedbackManager/positiveFeedbackManager";
 import { CustomError } from "../../../CustomError/CustomError";
@@ -20,7 +20,7 @@ describe("Given a getAllRides controller", () => {
   const next = jest.fn();
   describe("When it receives a request to get all rides", () => {
     test("Then it should respond with status 200 and a json with all rides", async () => {
-      Rides.find = jest.fn().mockImplementationOnce(() => ({
+      Ride.find = jest.fn().mockImplementationOnce(() => ({
         populate: jest.fn().mockImplementation(() => ({
           exec: jest.fn().mockReturnValue(mockRides),
         })),
@@ -52,7 +52,7 @@ describe("Given a getAllRides controller", () => {
 
       req.body = {};
 
-      Rides.find = jest.fn().mockImplementationOnce(() => ({
+      Ride.find = jest.fn().mockImplementationOnce(() => ({
         populate: jest.fn().mockImplementationOnce(() => ({
           exec: jest
             .fn()

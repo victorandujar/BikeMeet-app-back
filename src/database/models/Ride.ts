@@ -4,7 +4,7 @@ import {
   type SurfaceTypeOptions,
 } from "../../server/controllers/ridesControllers/types/types";
 
-export interface RidesModel extends Document {
+export interface RideModel extends Document {
   title: string;
   location: string;
   date: string | Date;
@@ -19,7 +19,7 @@ export interface RidesModel extends Document {
   owner: Record<string, unknown> | string;
 }
 
-const ridesSchema = new Schema<RidesModel>({
+const rideSchema = new Schema<RideModel>({
   title: {
     type: String,
     required: true,
@@ -72,4 +72,4 @@ const ridesSchema = new Schema<RidesModel>({
   },
 });
 
-export const Rides = model<RidesModel>("Rides", ridesSchema, "rides");
+export const Ride = model<RideModel>("Ride", rideSchema, "rides");

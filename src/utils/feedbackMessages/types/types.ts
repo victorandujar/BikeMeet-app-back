@@ -19,6 +19,7 @@ export interface UserErrorsManagerMessagesStructure {
 
 export interface RidesErrorManagerMessagesStructure {
   notFoundRides: string;
+  notFoundRide: string;
 }
 
 export interface ErrorsManagerCodesStructure {
