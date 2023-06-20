@@ -12,4 +12,5 @@ export interface UserEndpointsStructure {
 export interface RidesEndpointsStructure {
   rides: string;
   getAllRides: string;
+  detail: string;
 }
