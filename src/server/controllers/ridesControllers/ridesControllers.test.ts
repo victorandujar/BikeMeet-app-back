@@ -1,3 +1,4 @@
+/* eslint-disable max-nested-callbacks */
 import { type NextFunction, type Request, type Response } from "express";
 import { mockRides } from "../../../mocks/ridesMocks/ridesMocks";
 import { Rides } from "../../../database/models/Rides";
@@ -20,7 +21,9 @@ describe("Given a getAllRides controller", () => {
   describe("When it receives a request to get all rides", () => {
     test("Then it should respond with status 200 and a json with all rides", async () => {
       Rides.find = jest.fn().mockImplementationOnce(() => ({
-        exec: jest.fn().mockReturnValue(mockRides),
+        populate: jest.fn().mockImplementation(() => ({
+          exec: jest.fn().mockReturnValue(mockRides),
+        })),
       }));
 
       await getAllRides(req as Request, res as Response, next);
@@ -50,11 +53,13 @@ describe("Given a getAllRides controller", () => {
       req.body = {};
 
       Rides.find = jest.fn().mockImplementationOnce(() => ({
-        exec: jest
-          .fn()
-          .mockRejectedValue(
-            new Error(ridesErrorsManagerStructure.notFoundRides)
-          ),
+        populate: jest.fn().mockImplementationOnce(() => ({
+          exec: jest
+            .fn()
+            .mockRejectedValue(
+              new Error(ridesErrorsManagerStructure.notFoundRides)
+            ),
+        })),
       }));
 
       await getAllRides(req as Request, res as Response, next);
