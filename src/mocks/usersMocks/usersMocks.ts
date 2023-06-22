@@ -2,6 +2,7 @@ import {
   type UserToVerifyStructure,
   type UserCredentials,
   type UserRegisterCredentials,
+  type UserDataStructure,
 } from "../../server/controllers/userControllers/types/types";
 
 export const mockUserRegisterCredentials: UserRegisterCredentials = {
@@ -31,4 +32,17 @@ export const mockUserVerified: UserRegisterCredentials = {
 
 export const mockUserToVerify: UserToVerifyStructure = {
   confirmationCode: "kdjfkldsjfklasdf",
+};
+
+export const mockUserData: UserDataStructure = {
+  name: "Victor",
+  surname: "Andújar",
+  username: "Ammavaru",
+  email: "victorandujarmurcia@gmail.com",
+  followers: ["dkdkfjjdklfdj"],
+  following: ["dfkljdsfkldjskld"],
+  image: "kfdjdsklfjdsklfj",
+  location: "dkfljdsklfjdsklf",
+  rate: 5,
+  rides: 2,
 };
