@@ -8,10 +8,11 @@ export const userEndpoints: UserEndpointsStructure = {
   register: "/register",
   login: "/login",
   verifyEmail: "/verify-email",
-  getUser: "/user-verify",
+  userToVerify: "/user-verify",
   recoveryPassword: "/restore-password/:userId",
   resetPasswordEmail: "/recovery-password",
   restorePassword: "/restore-password",
+  getUser: "/user",
 };
 
 export const ridesEndpoints: RidesEndpointsStructure = {

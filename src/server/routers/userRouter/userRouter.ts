@@ -3,6 +3,7 @@ import { userEndpoints } from "../../../utils/endpoints/endpoints.js";
 import {
   findUserEmail,
   findUserToRestorePassword,
+  getUser,
   loginUser,
   recoveryPassword,
   registerUser,
@@ -25,8 +26,9 @@ usersRouter.post(
   loginUser
 );
 usersRouter.post(userEndpoints.verifyEmail, verifyEmail);
-usersRouter.post(userEndpoints.getUser, findUserEmail);
+usersRouter.post(userEndpoints.userToVerify, findUserEmail);
 usersRouter.post(userEndpoints.recoveryPassword, recoveryPassword);
 usersRouter.post(userEndpoints.resetPasswordEmail, findUserToRestorePassword);
+usersRouter.post(userEndpoints.getUser, getUser);
 
 export default usersRouter;

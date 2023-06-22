@@ -14,7 +14,7 @@ export const getAllRides = async (
 ) => {
   try {
     const rides = await Rides.find()
-      .populate("owner", "name surname username")
+      .populate("owner", "name surname username rides rate image")
       .exec();
 
     res.status(positiveFeedbackStatusCodes.responseOk).json({ rides });
