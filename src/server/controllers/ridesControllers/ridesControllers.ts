@@ -7,6 +7,7 @@ import {
   ridesErrorsManagerStructure,
   userErrorsManagerMessages,
 } from "../../../utils/feedbackMessages/errorsFeedbackManager/errorsFeedbackManager.js";
+import { type CustomRideRequest } from "./types/types.js";
 
 export const getAllRides = async (
   req: Request,
@@ -35,14 +36,14 @@ export const getAllRides = async (
 };
 
 export const getRideById = async (
-  req: Request,
+  req: CustomRideRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { rideId } = req.params;
 
-    const ride = await Ride.findById(rideId).exec();
+    const ride = await Ride.findById({ _id: rideId }).exec();
 
     if (!ride) {
       throw new Error();
