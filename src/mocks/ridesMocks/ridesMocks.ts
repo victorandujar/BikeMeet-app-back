@@ -18,6 +18,7 @@ export const mockGravelRide: RideDataStructure = {
   ridersLimit: 10,
   image: "ruta1.jpg",
   owner: "64804b1505ab892cb07b0061",
+  rideId: "6488426a98040d0f5e10201b",
 };
 
 export const mockMountainRide: RideDataStructure = {

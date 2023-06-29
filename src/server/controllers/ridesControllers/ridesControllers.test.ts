@@ -1,8 +1,11 @@
 /* eslint-disable max-nested-callbacks */
 import { type NextFunction, type Request, type Response } from "express";
-import { mockRides } from "../../../mocks/ridesMocks/ridesMocks";
+import {
+  mockGravelRide,
+  mockRides,
+} from "../../../mocks/ridesMocks/ridesMocks";
 import { Ride } from "../../../database/models/Ride";
-import { getAllRides } from "./ridesControllers";
+import { getAllRides, getRideById } from "./ridesControllers";
 import { positiveFeedbackStatusCodes } from "../../../utils/feedbackMessages/positiveFeedbackManager/positiveFeedbackManager";
 import { CustomError } from "../../../CustomError/CustomError";
 import {
@@ -10,6 +13,9 @@ import {
   ridesErrorsManagerStructure,
   userErrorsManagerMessages,
 } from "../../../utils/feedbackMessages/errorsFeedbackManager/errorsFeedbackManager";
+import { type CustomRideRequest } from "./types/types";
+
+beforeEach(() => jest.clearAllMocks());
 
 describe("Given a getAllRides controller", () => {
   const req: Partial<Request> = {};
@@ -65,6 +71,53 @@ describe("Given a getAllRides controller", () => {
       await getAllRides(req as Request, res as Response, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given the getRideById controller", () => {
+  const req: Partial<Request> = {
+    params: { rideId: mockGravelRide.rideId! },
+  };
+  const res: Partial<Response> = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+  const next = jest.fn();
+  describe("When it receives a request with id '6488426a98040d0f5e10201b'", () => {
+    test("Then it should respond with status 200 and 'Ruta de Montaña A' ride in it", async () => {
+      Ride.findById = jest.fn().mockImplementationOnce(() => ({
+        exec: jest.fn().mockResolvedValue(mockGravelRide),
+      }));
+
+      await getRideById(req as CustomRideRequest, res as Response, next);
+
+      expect(res.status).toHaveBeenCalledWith(
+        positiveFeedbackStatusCodes.responseOk
+      );
+      expect(res.json).toHaveBeenCalledWith({ ride: mockGravelRide });
+    });
+  });
+
+  describe("When it receives a response without ride", () => {
+    test("Then is should call next function with 'Something went wrong!. Try again' message", async () => {
+      const customError = new CustomError(
+        ridesErrorsManagerStructure.notFoundRide,
+        errorsManagerCodes.notFound,
+        userErrorsManagerMessages.publicMessageDefault
+      );
+
+      Ride.findById = jest.fn().mockImplementationOnce(() => ({
+        exec: jest
+          .fn()
+          .mockRejectedValue(
+            new Error(ridesErrorsManagerStructure.notFoundRide)
+          ),
+      }));
+
+      await getRideById(req as CustomRideRequest, res as Response, next);
+
+      expect(next).toHaveBeenCalledWith(customError);
     });
   });
 });
