@@ -5,6 +5,7 @@ import {
   type CustomJwtPayload,
   type UserCredentials,
   type UserRegisterCredentials,
+  type UserDataStructure,
 } from "./types/types";
 import { User } from "../../../database/models/User.js";
 import bcryptjs from "bcryptjs";
@@ -77,7 +78,7 @@ export const loginUser = async (
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email }).exec();
+    const user = await User.findOne({ email }).select("+password").exec();
 
     if (!user) {
       throw new Error();
@@ -254,6 +255,36 @@ export const findUserToRestorePassword = async (
       (error as Error).message,
       errorsManagerCodes.notFound,
       userErrorsManagerMessages.getUserWrongEmail
+    );
+
+    next(customError);
+  }
+};
+
+export const getUser = async (
+  req: Request<
+    Record<string, unknown>,
+    Record<string, unknown>,
+    UserDataStructure
+  >,
+  res: Response,
+  next: NextFunction
+) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email }).exec();
+
+    if (!user) {
+      throw new Error();
+    }
+
+    res.status(positiveFeedbackStatusCodes.responseOk).json({ user });
+  } catch (error) {
+    const customError = new CustomError(
+      (error as Error).message,
+      errorsManagerCodes.notFound,
+      userErrorsManagerMessages.notFoundUser
     );
 
     next(customError);

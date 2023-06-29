@@ -1,5 +1,6 @@
 import { type NextFunction, type Request, type Response } from "express";
 import {
+  type UserDataStructure,
   type UserCredentials,
   type UserRegisterCredentials,
 } from "./types/types";
@@ -7,6 +8,7 @@ import bcryptjs from "bcryptjs";
 import { User } from "../../../database/models/User.js";
 import {
   findUserEmail,
+  getUser,
   loginUser,
   recoveryPassword,
   registerUser,
@@ -17,6 +19,7 @@ import {
   userErrorsManagerMessages,
 } from "../../../utils/feedbackMessages/errorsFeedbackManager/errorsFeedbackManager.js";
 import {
+  mockUserData,
   mockUserLoginCredentials,
   mockUserRegisterCredentials,
 } from "../../../mocks/usersMocks/usersMocks";
@@ -123,6 +126,7 @@ describe("Given a loginUser controller", () => {
       const expectedResponse = { token: "dsjakhsdsagdhgashj" };
 
       User.findOne = jest.fn().mockImplementationOnce(() => ({
+        select: jest.fn().mockReturnThis(),
         exec: jest.fn().mockResolvedValue({
           ...mockUserLoginCredentials,
           _id: new mongoose.Types.ObjectId(),
@@ -160,6 +164,7 @@ describe("Given a loginUser controller", () => {
       req.body = mockUserLoginCredentials;
 
       User.findOne = jest.fn().mockImplementationOnce(() => ({
+        select: jest.fn().mockReturnThis(),
         exec: jest.fn().mockRejectedValue(expectedError),
       }));
 
@@ -312,6 +317,75 @@ describe("Given a recoveryPassword controller", () => {
           Record<string, unknown>,
           Record<string, unknown>,
           UserCredentials
+        >,
+        res as Response,
+        next
+      );
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given a getUser controller", () => {
+  const req: Partial<
+    Request<Record<string, unknown>, Record<string, unknown>, UserDataStructure>
+  > = { params: { userId: "dsfjkhdskfhdskfhfdksjfhjdshfk" } };
+  const res: Partial<Response> = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+  const next = jest.fn();
+  describe("When it receives a request with the user email", () => {
+    test("Then it should respond with status 200 and its json method with the user", async () => {
+      const expectedResponse = {
+        user: mockUserData,
+      };
+
+      req.body = mockUserData;
+
+      User.findOne = jest.fn().mockImplementationOnce(() => ({
+        exec: jest.fn().mockResolvedValue({
+          ...mockUserData,
+        }),
+      }));
+
+      await getUser(
+        req as Request<
+          Record<string, unknown>,
+          Record<string, unknown>,
+          UserDataStructure
+        >,
+        res as Response,
+        next
+      );
+
+      expect(res.status).toHaveBeenCalledWith(
+        positiveFeedbackStatusCodes.responseOk
+      );
+      expect(res.json).toHaveBeenCalledWith(expectedResponse);
+    });
+  });
+
+  describe("When it receives a bad request", () => {
+    test("Then it should call its next method with a custom error", async () => {
+      const expectedError = new CustomError(
+        userErrorsManagerMessages.notFoundUser,
+        errorsManagerCodes.wrongCredentialsStatusCode,
+        userErrorsManagerMessages.notFoundUser
+      );
+
+      req.body = mockUserData;
+
+      User.findOne = jest.fn().mockImplementationOnce(() => ({
+        exec: jest.fn().mockRejectedValue(expectedError),
+      }));
+
+      await getUser(
+        req as Request<
+          Record<string, unknown>,
+          Record<string, unknown>,
+          UserDataStructure
         >,
         res as Response,
         next

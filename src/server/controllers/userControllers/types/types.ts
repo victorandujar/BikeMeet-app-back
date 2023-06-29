@@ -27,3 +27,16 @@ export interface RecoveryPasswordStructure {
   _id: string;
   password: string;
 }
+
+export interface UserDataStructure {
+  name: string;
+  surname: string;
+  username: string;
+  email: string;
+  followers: string[];
+  following: string[];
+  rides: number;
+  rate: number;
+  image: string;
+  location: string;
+}

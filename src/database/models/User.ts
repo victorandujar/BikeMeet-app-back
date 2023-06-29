@@ -8,6 +8,12 @@ interface UserModel extends Document {
   password: string;
   isVerified: boolean;
   confirmationCode: string | undefined;
+  followers: string[];
+  following: string[];
+  rides: number;
+  rate: number;
+  image: string;
+  location: string;
 }
 
 const UserSchema = new Schema<UserModel>({
@@ -32,12 +38,39 @@ const UserSchema = new Schema<UserModel>({
   password: {
     type: String,
     required: true,
+    select: false,
   },
   isVerified: {
     type: Boolean,
     default: false,
   },
   confirmationCode: {
+    type: String,
+  },
+  followers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  following: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  rides: {
+    type: Number,
+    default: 0,
+  },
+  rate: {
+    type: Number,
+    default: 0,
+  },
+  image: {
+    type: String,
+  },
+  location: {
     type: String,
   },
 });
