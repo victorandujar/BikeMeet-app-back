@@ -14,9 +14,13 @@ export const getAllRides = async (
   next: NextFunction
 ) => {
   try {
-    const rides = await Rides.find()
+    const rides = await Ride.find()
       .populate("owner", "name surname username rides rate image")
       .exec();
+
+    if (!rides) {
+      throw new Error();
+    }
 
     res.status(positiveFeedbackStatusCodes.responseOk).json({ rides });
   } catch (error) {
@@ -41,15 +45,7 @@ export const getRideById = async (
     const ride = await Ride.findById(rideId).exec();
 
     if (!ride) {
-      const error = new CustomError(
-        ridesErrorsManagerStructure.notFoundRide,
-        errorsManagerCodes.notFound,
-        ridesErrorsManagerStructure.notFoundRide
-      );
-
-      next(error);
-
-      return;
+      throw new Error();
     }
 
     res.status(positiveFeedbackStatusCodes.responseOk).json({ ride });
