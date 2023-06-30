@@ -7,6 +7,7 @@ import {
   ridesErrorsManagerStructure,
   userErrorsManagerMessages,
 } from "../../../utils/feedbackMessages/errorsFeedbackManager/errorsFeedbackManager.js";
+import { type CustomRideRequest } from "./types/types.js";
 
 export const getAllRides = async (
   req: Request,
@@ -14,9 +15,13 @@ export const getAllRides = async (
   next: NextFunction
 ) => {
   try {
-    const rides = await Rides.find()
+    const rides = await Ride.find()
       .populate("owner", "name surname username rides rate image")
       .exec();
+
+    if (!rides) {
+      throw new Error();
+    }
 
     res.status(positiveFeedbackStatusCodes.responseOk).json({ rides });
   } catch (error) {
@@ -31,25 +36,17 @@ export const getAllRides = async (
 };
 
 export const getRideById = async (
-  req: Request,
+  req: CustomRideRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { rideId } = req.params;
 
-    const ride = await Ride.findById(rideId).exec();
+    const ride = await Ride.findById({ _id: rideId }).exec();
 
     if (!ride) {
-      const error = new CustomError(
-        ridesErrorsManagerStructure.notFoundRide,
-        errorsManagerCodes.notFound,
-        ridesErrorsManagerStructure.notFoundRide
-      );
-
-      next(error);
-
-      return;
+      throw new Error();
     }
 
     res.status(positiveFeedbackStatusCodes.responseOk).json({ ride });
