@@ -19,4 +19,5 @@ export const ridesEndpoints: RidesEndpointsStructure = {
   rides: "/rides",
   getAllRides: "/",
   detail: "/:rideId",
+  create: "/create",
 };

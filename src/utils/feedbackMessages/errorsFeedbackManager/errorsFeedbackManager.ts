@@ -19,6 +19,7 @@ export const userErrorsManagerMessages: UserErrorsManagerMessagesStructure = {
 export const ridesErrorsManagerStructure: RidesErrorManagerMessagesStructure = {
   notFoundRides: "We couldn't retrieve rides. Try again!",
   notFoundRide: "The ride could not be found",
+  notCreatedRide: "The ride could not be created",
 };
 
 export const errorsManagerCodes: ErrorsManagerCodesStructure = {
