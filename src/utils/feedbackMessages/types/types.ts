@@ -28,6 +28,7 @@ export interface ErrorsManagerCodesStructure {
   generalErrorStatusCode: number;
   registerErrorStatusCode: number;
   wrongCredentialsStatusCode: number;
+  badRequest: number;
 }
 
 export interface PositiveFeedbackStatusCodesStructure {

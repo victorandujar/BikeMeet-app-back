@@ -75,7 +75,6 @@ export const createRide = async (
     const newRide = await Ride.create({
       ...ride,
     });
-
     res
       .status(positiveFeedbackStatusCodes.created)
       .json({ ...newRide.toJSON() });
