@@ -89,7 +89,9 @@ describe("Given the getRideById controller", () => {
   describe("When it receives a request with id '6488426a98040d0f5e10201b'", () => {
     test("Then it should respond with status 200 and 'Ruta de Montaña A' ride in it", async () => {
       Ride.findById = jest.fn().mockImplementationOnce(() => ({
-        exec: jest.fn().mockResolvedValue(mockGravelRide),
+        populate: jest.fn().mockImplementationOnce(() => ({
+          exec: jest.fn().mockResolvedValue(mockGravelRide),
+        })),
       }));
 
       await getRideById(req as CustomRideRequest, res as Response, next);
@@ -110,11 +112,13 @@ describe("Given the getRideById controller", () => {
       );
 
       Ride.findById = jest.fn().mockImplementationOnce(() => ({
-        exec: jest
-          .fn()
-          .mockRejectedValue(
-            new Error(ridesErrorsManagerStructure.notFoundRide)
-          ),
+        populate: jest.fn().mockImplementationOnce(() => ({
+          exec: jest
+            .fn()
+            .mockRejectedValue(
+              new Error(ridesErrorsManagerStructure.notFoundRide)
+            ),
+        })),
       }));
 
       await getRideById(req as CustomRideRequest, res as Response, next);
