@@ -1,5 +1,8 @@
 import { type NextFunction, type Request, type Response } from "express";
-import { Ride } from "../../../database/models/Ride.js";
+import {
+  Ride,
+  type RideSchemaStructure,
+} from "../../../database/models/Ride.js";
 import { positiveFeedbackStatusCodes } from "../../../utils/feedbackMessages/positiveFeedbackManager/positiveFeedbackManager.js";
 import { CustomError } from "../../../CustomError/CustomError.js";
 import {
@@ -57,6 +60,30 @@ export const getRideById = async (
       userErrorsManagerMessages.publicMessageDefault
     );
 
+    next(customError);
+  }
+};
+
+export const createRide = async (
+  req: CustomRideRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const ride = req.body as RideSchemaStructure;
+
+  try {
+    const newRide = await Ride.create({
+      ...ride,
+    });
+    res
+      .status(positiveFeedbackStatusCodes.created)
+      .json({ ...newRide.toJSON() });
+  } catch (error) {
+    const customError = new CustomError(
+      (error as Error).message,
+      errorsManagerCodes.generalErrorStatusCode,
+      ridesErrorsManagerStructure.notCreatedRide
+    );
     next(customError);
   }
 };

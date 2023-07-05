@@ -14,4 +14,5 @@ export interface RidesEndpointsStructure {
   rides: string;
   getAllRides: string;
   detail: string;
+  create: string;
 }

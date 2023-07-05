@@ -1,11 +1,11 @@
 /* eslint-disable max-nested-callbacks */
-import { type NextFunction, type Request, type Response } from "express";
+import { type Request, type Response } from "express";
 import {
   mockGravelRide,
   mockRides,
 } from "../../../mocks/ridesMocks/ridesMocks";
 import { Ride } from "../../../database/models/Ride";
-import { getAllRides, getRideById } from "./ridesControllers";
+import { createRide, getAllRides, getRideById } from "./ridesControllers";
 import { positiveFeedbackStatusCodes } from "../../../utils/feedbackMessages/positiveFeedbackManager/positiveFeedbackManager";
 import { CustomError } from "../../../CustomError/CustomError";
 import {
@@ -24,6 +24,7 @@ describe("Given a getAllRides controller", () => {
     json: jest.fn().mockResolvedValue(mockRides),
   };
   const next = jest.fn();
+
   describe("When it receives a request to get all rides", () => {
     test("Then it should respond with status 200 and a json with all rides", async () => {
       Ride.find = jest.fn().mockImplementationOnce(() => ({
@@ -84,6 +85,7 @@ describe("Given the getRideById controller", () => {
     json: jest.fn(),
   };
   const next = jest.fn();
+
   describe("When it receives a request with id '6488426a98040d0f5e10201b'", () => {
     test("Then it should respond with status 200 and 'Ruta de Montaña A' ride in it", async () => {
       Ride.findById = jest.fn().mockImplementationOnce(() => ({
@@ -118,6 +120,31 @@ describe("Given the getRideById controller", () => {
       await getRideById(req as CustomRideRequest, res as Response, next);
 
       expect(next).toHaveBeenCalledWith(customError);
+    });
+  });
+});
+
+describe("Given the createRide controller", () => {
+  const req: Partial<Request> = {};
+  const res: Partial<Response> = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn().mockReturnValue({}),
+  };
+  const next = jest.fn();
+
+  describe("When it receives a request with the data of a new ride", () => {
+    test("Then it should respond with status 201 and its json method with the created ride", async () => {
+      const expectedStatusCode = positiveFeedbackStatusCodes.created;
+
+      Ride.create = jest.fn().mockReturnValue({
+        ...mockGravelRide,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        toJSON: jest.fn().mockReturnValue(mockGravelRide),
+      });
+      await createRide(req as CustomRideRequest, res as Response, next);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatusCode);
+      expect(res.json).toHaveBeenCalledWith(mockGravelRide);
     });
   });
 });

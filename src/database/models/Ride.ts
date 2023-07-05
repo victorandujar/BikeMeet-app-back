@@ -1,4 +1,4 @@
-import { type Document, Schema, model } from "mongoose";
+import { type Document, Schema, model, type InferSchemaType } from "mongoose";
 import {
   type DifficultyOption,
   type SurfaceTypeOptions,
@@ -73,3 +73,5 @@ const rideSchema = new Schema<RideModel>({
 });
 
 export const Ride = model<RideModel>("Ride", rideSchema, "rides");
+
+export type RideSchemaStructure = InferSchemaType<typeof rideSchema>;

@@ -20,6 +20,7 @@ export interface UserErrorsManagerMessagesStructure {
 export interface RidesErrorManagerMessagesStructure {
   notFoundRides: string;
   notFoundRide: string;
+  notCreatedRide: string;
 }
 
 export interface ErrorsManagerCodesStructure {
@@ -27,6 +28,7 @@ export interface ErrorsManagerCodesStructure {
   generalErrorStatusCode: number;
   registerErrorStatusCode: number;
   wrongCredentialsStatusCode: number;
+  badRequest: number;
 }
 
 export interface PositiveFeedbackStatusCodesStructure {
