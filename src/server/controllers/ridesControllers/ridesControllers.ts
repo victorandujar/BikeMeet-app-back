@@ -46,7 +46,9 @@ export const getRideById = async (
   try {
     const { rideId } = req.params;
 
-    const ride = await Ride.findById({ _id: rideId }).exec();
+    const ride = await Ride.findById({ _id: rideId })
+      .populate("owner", "name surname image rate rides")
+      .exec();
 
     if (!ride) {
       throw new Error();
