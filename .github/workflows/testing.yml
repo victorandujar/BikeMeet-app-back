@@ -18,5 +18,6 @@ jobs:
         run: npm test
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_API_KEY: ${{ secrets.SUPABASE_API_KEY }}
+          CLOUDINARY_CLOUDNAME: ${{ secrets.CLOUDINARY_CLOUDNAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY}}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET}}

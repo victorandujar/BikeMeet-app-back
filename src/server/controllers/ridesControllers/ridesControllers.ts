@@ -77,9 +77,7 @@ export const createRide = async (
     const newRide = await Ride.create({
       ...ride,
     });
-    res
-      .status(positiveFeedbackStatusCodes.created)
-      .json({ ...newRide.toJSON() });
+    res.status(positiveFeedbackStatusCodes.created).json({ ride: newRide });
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,

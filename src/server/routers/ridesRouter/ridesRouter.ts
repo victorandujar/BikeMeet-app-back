@@ -8,6 +8,7 @@ import {
 import multer from "multer";
 import path from "path";
 import imageBackup from "../../middlewares/images/imageBackup.js";
+import crypto from "crypto";
 
 const storage = multer.diskStorage({
   destination: "uploads/",

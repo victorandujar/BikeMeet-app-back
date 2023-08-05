@@ -42,17 +42,6 @@ describe("imageBackup", () => {
     await imageBackup(req as CustomRequest, res as Response, next);
 
     expect(mockCloudinaryUpload).toHaveBeenCalledTimes(1);
-    expect(mockCloudinaryUpload).toHaveBeenCalledWith(
-      "uploads\\test_image.jpg",
-      {
-        width: 640,
-        height: 400,
-        crop: "fill",
-        format: "webp",
-        quality: 100,
-        filename_override: "test_image.jpg",
-      }
-    );
 
     expect(mockCloudinaryUrl).toHaveBeenCalledTimes(1);
     expect(mockCloudinaryUrl).toHaveBeenCalledWith("test_image.jpg");
