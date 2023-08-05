@@ -30,9 +30,12 @@ const imageBackup = async (
       filename_override: imageName,
     };
 
-    await cloudinary.uploader.upload(imagePath, transformationOptions);
+    const image = await cloudinary.uploader.upload(
+      imagePath,
+      transformationOptions
+    );
 
-    const publicUrl = cloudinary.url(imageName!);
+    const publicUrl = cloudinary.url(image.url, { secure: true });
 
     req.body.image = publicUrl;
     next();
