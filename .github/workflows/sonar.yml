@@ -17,6 +17,12 @@ jobs:
         run: npm ci
       - name: Coverage
         run: npm run test:coverage
+        env:
+          CLOUDINARY_CLOUDNAME: ${{ secrets.CLOUDINARY_CLOUDNAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY}}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET}}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          MONGODB_DATABASE_CONNECTION: ${{ secrets.MONGODB_DATABASE_CONNECTION }}
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:

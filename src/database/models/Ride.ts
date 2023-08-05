@@ -17,6 +17,7 @@ export interface RideModel extends Document {
   ridersLimit: number;
   image: string;
   owner: Record<string, unknown> | string;
+  elevationGain: string;
 }
 
 const rideSchema = new Schema<RideModel>({
@@ -69,6 +70,10 @@ const rideSchema = new Schema<RideModel>({
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
+  },
+  elevationGain: {
+    type: String,
+    required: true,
   },
 });
 
