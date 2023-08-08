@@ -4,6 +4,7 @@ const ridesSchema = {
   body: Joi.object({
     title: Joi.string().required(),
     location: Joi.string().required(),
+    elevationGain: Joi.number().required(),
     date: Joi.string().required(),
     surfaceType: Joi.string().required(),
     distance: Joi.number().required(),

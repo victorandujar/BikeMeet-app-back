@@ -17,6 +17,7 @@ export enum DifficultyOption {
 export interface RideDataStructure {
   title: string;
   location: string;
+  elevationGain: number;
   date: string | Date;
   surfaceType: SurfaceTypeOptions;
   distance: number;

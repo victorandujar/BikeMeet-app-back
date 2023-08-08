@@ -8,6 +8,7 @@ import {
 export const mockGravelRide: RideDataStructure = {
   title: "Ruta de montaña A",
   location: "Montaña X",
+  elevationGain: 1000,
   date: "2023-06-14T00:00:00.000Z",
   surfaceType: SurfaceTypeOptions.Gravel,
   distance: 20,
@@ -24,6 +25,7 @@ export const mockGravelRide: RideDataStructure = {
 export const mockMountainRide: RideDataStructure = {
   title: "Ruta de montaña B",
   location: "Montaña Y",
+  elevationGain: 1000,
   date: "2023-06-14T00:00:00.000Z",
   surfaceType: SurfaceTypeOptions.Mtb,
   distance: 20,
