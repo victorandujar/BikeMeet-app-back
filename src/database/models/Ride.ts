@@ -7,7 +7,8 @@ import {
 export interface RideModel extends Document {
   title: string;
   location: string;
-  date: string | Date;
+  elevationGain: number;
+  date: Date;
   surfaceType: SurfaceTypeOptions;
   distance: number;
   difficulty: DifficultyOption;
@@ -16,6 +17,7 @@ export interface RideModel extends Document {
   ridersJoined: string[];
   ridersLimit: number;
   image: string;
+  map: string;
   owner: Record<string, unknown> | string;
 }
 
@@ -26,6 +28,10 @@ const rideSchema = new Schema<RideModel>({
   },
   location: {
     type: String,
+    required: true,
+  },
+  elevationGain: {
+    type: Number,
     required: true,
   },
   date: {
