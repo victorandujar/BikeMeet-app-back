@@ -10,5 +10,5 @@ module.exports = {
     "!src/server/startServer.ts",
     "!src/database/connectDataBase.ts",
   ],
-  coverageDirectory: "coverage/unit",
+  coverageDirectory: "coverage/integration",
 };

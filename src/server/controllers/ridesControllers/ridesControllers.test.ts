@@ -132,7 +132,7 @@ describe("Given the createRide controller", () => {
   const req: Partial<Request> = {};
   const res: Partial<Response> = {
     status: jest.fn().mockReturnThis(),
-    json: jest.fn().mockReturnValue({}),
+    json: jest.fn().mockReturnValue({ ride: mockGravelRide }),
   };
   const next = jest.fn();
 
@@ -140,15 +140,39 @@ describe("Given the createRide controller", () => {
     test("Then it should respond with status 201 and its json method with the created ride", async () => {
       const expectedStatusCode = positiveFeedbackStatusCodes.created;
 
-      Ride.create = jest.fn().mockReturnValue({
-        ...mockGravelRide,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        toJSON: jest.fn().mockReturnValue(mockGravelRide),
-      });
+      Ride.create = jest.fn().mockResolvedValue(mockGravelRide);
       await createRide(req as CustomRideRequest, res as Response, next);
 
       expect(res.status).toHaveBeenCalledWith(expectedStatusCode);
-      expect(res.json).toHaveBeenCalledWith(mockGravelRide);
+      expect(res.json).toHaveBeenCalledWith({ ride: mockGravelRide });
+    });
+  });
+
+  describe("When it receives a bad request", () => {
+    test("Then it should throw an error", async () => {
+      const res: Partial<Response> = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockResolvedValue({}),
+      };
+      const req: Partial<CustomRideRequest> = {};
+      const next = jest.fn();
+
+      const customError = new CustomError(
+        ridesErrorsManagerStructure.notCreatedRide,
+        errorsManagerCodes.generalErrorStatusCode,
+        userErrorsManagerMessages.publicMessageDefault
+      );
+      req.body = {};
+
+      Ride.create = jest
+        .fn()
+        .mockRejectedValue(
+          new Error(ridesErrorsManagerStructure.notCreatedRide)
+        );
+
+      await createRide(req as CustomRideRequest, res as Response, next);
+
+      expect(next).toHaveBeenCalledWith(customError);
     });
   });
 });
