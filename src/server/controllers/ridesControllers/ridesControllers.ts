@@ -11,6 +11,8 @@ import {
   userErrorsManagerMessages,
 } from "../../../utils/feedbackMessages/errorsFeedbackManager/errorsFeedbackManager.js";
 import { type CustomRideRequest } from "./types/types.js";
+import { type CustomUserRequest } from "../userControllers/types/types.js";
+import mongoose from "mongoose";
 
 export const getAllRides = async (
   req: Request,
@@ -58,7 +60,7 @@ export const getRideById = async (
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
-      errorsManagerCodes.generalErrorStatusCode,
+      errorsManagerCodes.badRequest,
       userErrorsManagerMessages.publicMessageDefault
     );
 
@@ -77,11 +79,12 @@ export const createRide = async (
     const newRide = await Ride.create({
       ...ride,
     });
+
     res.status(positiveFeedbackStatusCodes.created).json({ ride: newRide });
   } catch (error) {
     const customError = new CustomError(
       (error as Error).message,
-      errorsManagerCodes.generalErrorStatusCode,
+      errorsManagerCodes.badRequest,
       ridesErrorsManagerStructure.notCreatedRide
     );
     next(customError);

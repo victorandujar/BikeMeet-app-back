@@ -45,4 +45,5 @@ export const mockUserData: UserDataStructure = {
   location: "dkfljdsklfjdsklf",
   rate: 5,
   rides: 2,
+  _id: "dskfljsdklfdsfflk",
 };

@@ -76,9 +76,6 @@ const rideSchema = new Schema<RideModel>({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  map: {
-    type: String,
-  },
 });
 
 export const Ride = model<RideModel>("Ride", rideSchema, "rides");
