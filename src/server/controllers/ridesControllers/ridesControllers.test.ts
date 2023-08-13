@@ -142,7 +142,7 @@ describe("Given the createRide controller", () => {
       const expectedStatusCode = positiveFeedbackStatusCodes.created;
 
       Ride.create = jest.fn().mockResolvedValue(mockGravelRide);
-      await createRide(req as CustomUserRequest, res as Response, next);
+      await createRide(req as CustomRideRequest, res as Response, next);
 
       expect(res.status).toHaveBeenCalledWith(expectedStatusCode);
       expect(res.json).toHaveBeenCalledWith({ ride: mockGravelRide });
@@ -155,7 +155,7 @@ describe("Given the createRide controller", () => {
         status: jest.fn().mockReturnThis(),
         json: jest.fn().mockResolvedValue({}),
       };
-      const req: Partial<CustomUserRequest> = {};
+      const req: Partial<CustomRideRequest> = {};
       const next = jest.fn();
 
       const customError = new CustomError(
@@ -171,7 +171,7 @@ describe("Given the createRide controller", () => {
           new Error(ridesErrorsManagerStructure.notCreatedRide)
         );
 
-      await createRide(req as CustomUserRequest, res as Response, next);
+      await createRide(req as CustomRideRequest, res as Response, next);
 
       expect(next).toHaveBeenCalledWith(customError);
     });
