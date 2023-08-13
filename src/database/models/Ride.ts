@@ -72,6 +72,9 @@ const rideSchema = new Schema<RideModel>({
     type: String,
     required: true,
   },
+  map: {
+    type: String,
+  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",

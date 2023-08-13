@@ -49,5 +49,5 @@ export interface CustomUserRequest<
   ResBody = any,
   ReqBody = any
 > extends Request<P, ResBody, ReqBody> {
-  owner: string;
+  userId: string;
 }

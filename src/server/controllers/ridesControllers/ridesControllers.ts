@@ -11,8 +11,6 @@ import {
   userErrorsManagerMessages,
 } from "../../../utils/feedbackMessages/errorsFeedbackManager/errorsFeedbackManager.js";
 import { type CustomRideRequest } from "./types/types.js";
-import { type CustomUserRequest } from "../userControllers/types/types.js";
-import mongoose from "mongoose";
 
 export const getAllRides = async (
   req: Request,
