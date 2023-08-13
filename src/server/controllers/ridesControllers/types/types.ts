@@ -11,7 +11,7 @@ export enum DifficultyOption {
   Easy = "Easy",
   Intermediate = "Intermediate",
   Hard = "Hard",
-  Expert = "Expert",
+  Beginner = "Beginner",
 }
 
 export interface RideDataStructure {

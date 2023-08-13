@@ -14,6 +14,7 @@ import {
   userErrorsManagerMessages,
 } from "../../../utils/feedbackMessages/errorsFeedbackManager/errorsFeedbackManager";
 import { type CustomRideRequest } from "./types/types";
+import { type CustomUserRequest } from "../userControllers/types/types";
 
 beforeEach(() => jest.clearAllMocks());
 
@@ -159,7 +160,7 @@ describe("Given the createRide controller", () => {
 
       const customError = new CustomError(
         ridesErrorsManagerStructure.notCreatedRide,
-        errorsManagerCodes.generalErrorStatusCode,
+        errorsManagerCodes.badRequest,
         userErrorsManagerMessages.publicMessageDefault
       );
       req.body = {};
